@@ -40,21 +40,10 @@ static struct usart_module uart_modules[UART_NUM_CHANNELS];
 
 static uint32_t baud_rates[] = {
 	9600,
-	4800,
+	4800, // TODO: Update baud rate for wind vane
 	9600,
 	57600
 };
-
-/*
-UART_ChannelIDs:
-	UART_GPS,
-	UART_WEATHERSTATION,
-	UART_RADIO,
-	UART_XEOS,
-	UART_NUM_CHANNELS
-*/
-
-
 
 static enum usart_signal_mux_settings mux_settings[] = {
 	USART_RX_1_TX_0_XCK_1,
@@ -327,7 +316,7 @@ void GPS_RxCallback(struct usart_module *const usart_module) {
 }
 
 void WIND_RxCallback(struct usart_module *const usart_module) {
-	UART_RxCallback(UART_WEATHERSTATION);
+	UART_RxCallback(UART_WIND);
 }
 
 void RADIO_RxCallback(struct usart_module *const usart_module) {
@@ -345,7 +334,7 @@ void GPS_TxCallback(struct usart_module *const usart_module) {
 }
 
 void WIND_TxCallback(struct usart_module *const usart_module) {
-	UART_TxCallback(UART_WEATHERSTATION);
+	UART_TxCallback(UART_WIND);
 }
 
 void RADIO_TxCallback(struct usart_module *const usart_module) {

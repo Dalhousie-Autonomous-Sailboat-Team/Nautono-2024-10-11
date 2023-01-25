@@ -195,7 +195,7 @@ enum status_code WIND_GetReading(WIND_Reading *reading)
 				found_reading = 1;
 				break;
 		}
-	} while (found_reading);
+	} while (found_reading); // Should this be !found_reading?
 	*/ // I AM COMMENTED OUT!!!
 	
 	// Return if the message type is incorrect

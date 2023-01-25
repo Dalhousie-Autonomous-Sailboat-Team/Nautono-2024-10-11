@@ -155,14 +155,18 @@ enum status_code CTRL_InitSensors(void)
 	if (COMP_Init() != STATUS_OK) {
 		DEBUG_Write_Unprotected("Compass not initialized...\r\n");
 	}
+    
+    // TODO: Add initialization for GPS and WIND 01/25/2023 - KT
 	//DEBUG_Write("Test 123");
+    
+    /*
 	if (WEATHERSTATION_Init() != STATUS_OK) {
 		DEBUG_Write_Unprotected("WS not initialized...\r\n");
 	}
 	else{
 		DEBUG_Write_Unprotected("WS initialized.\r\n");
 		//DEBUG_Write("WS initialized.\r\n");
-	}
+	} */
 	
 	return STATUS_OK;
 }
@@ -172,7 +176,7 @@ enum status_code CTRL_InitSensors(void)
 enum status_code startup(void)
 {
 	// Enable wind vane
-	if (WS_Enable() != STATUS_OK) {
+	if (WS_Enable() != STATUS_OK) { // TODO: Update all WS_ func() to new wind functions 01/25/2023 - KT
 		DEBUG_Write_Unprotected("WS not enabled...\r\n");
 		} else {
 		DEBUG_Write_Unprotected("WS enabled...\r\n");
@@ -282,7 +286,7 @@ void process_wind_readings(void)
 	DEBUG_Write("avg_wind.speed = %4d cm/s | avg_wind.angle = %4d deg\r\n", (int)(avg_wind.speed * 100), (int)avg_wind.angle);
 }
 
-static void EnableWeatherStation(void)
+static void EnableWeatherStation(void) // TODO: UPDATE
 {
 	// Return if the controller is in LOAD mode
 	if (mode == CTRL_MODE_LOAD) {
@@ -290,10 +294,10 @@ static void EnableWeatherStation(void)
 	}
 
 	// Enable the wind vane
-	WS_Enable();
+	WS_Enable(); // TODO: UPDATE
 }
 
-static void DisableWeatherStation(void)
+static void DisableWeatherStation(void) // TODO: UPDATE
 {
 	// Return if the controller is in LOAD mode
 	if (mode == CTRL_MODE_LOAD) {
@@ -301,7 +305,7 @@ static void DisableWeatherStation(void)
 	}
 
 	// Disable the wind vane
-	WS_Disable();
+	WS_Disable(); //TODO: UPDATE
 }
 
 void process_heading_readings(void)

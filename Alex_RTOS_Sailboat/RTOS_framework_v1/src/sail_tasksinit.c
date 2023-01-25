@@ -49,8 +49,8 @@ enum status_code init_tasks(void) {
 	// Task for reading incoming data from the GPS
 	xTaskCreate( ReadGPS, NULL, GPS_STACK_SIZE, NULL, GPS_PRIORITY, NULL );	
 
-	// Task for reading incoming data from the weather station
-	//xTaskCreate( ReadWeatherSensor, NULL, WEATHER_SENSOR_STACK_SIZE, NULL, WEATHER_SENSOR_PRIORITY, NULL );
+    // Task for reading incoming data from the windvane
+    // Put here
 	
 	// Task for updating the course of the sailboat
 	//xTaskCreate( UpdateCourse, NULL, UPDATE_COURSE_STACK_SIZE, NULL, UPDATE_COURSE_PRIORITY, NULL );
