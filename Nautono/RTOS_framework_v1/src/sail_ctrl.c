@@ -92,7 +92,7 @@ enum status_code CTRL_InitSystem(void)
 	
 	// Initialize debug UART
 	DEBUG_Init();
-	
+
 	// Initialize the radio
 	if (RADIO_Init() != STATUS_OK) {
 		DEBUG_Write_Unprotected("Radio not initialized!\r\n");
@@ -133,7 +133,6 @@ enum status_code CTRL_InitSystem(void)
 	}
 	RADIO_TxMsg_Unprotected(&tx_msg);
 
-	
 	// Initialize the EEPROM
 	if (EEPROM_Init() != STATUS_OK) {
 		DEBUG_Write_Unprotected("EEPROM not initialized!\r\n");
@@ -142,26 +141,18 @@ enum status_code CTRL_InitSystem(void)
 	// Set default mode and state
 	mode = CTRL_MODE_AUTO;
 	state = CTRL_STATE_TEST;
-		
+	
 	return STATUS_OK;
 }
 
 
 enum status_code CTRL_InitSensors(void)
 {
-	
-	//todo: add initialization for AIS module
-	//DEBUG_Write("Test 456");
 	if (COMP_Init() != STATUS_OK) {
 		DEBUG_Write_Unprotected("Compass not initialized...\r\n");
 	}
-	//DEBUG_Write("Test 123");
-	if (WEATHERSTATION_Init() != STATUS_OK) {
+	if (GPS_Init() != STATUS_OK) {
 		DEBUG_Write_Unprotected("WS not initialized...\r\n");
-	}
-	else{
-		DEBUG_Write_Unprotected("WS initialized.\r\n");
-		//DEBUG_Write("WS initialized.\r\n");
 	}
 	
 	return STATUS_OK;

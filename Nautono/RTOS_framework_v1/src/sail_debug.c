@@ -25,7 +25,7 @@ enum status_code DEBUG_Init(void) {
 		return STATUS_ERR_ALREADY_INITIALIZED;
 	}
 		// Return if the UART cannot be initialized
-	if (UART_Init(UART_XEOS) != STATUS_OK) {
+	if (UART_Init(UART_DEBUG) != STATUS_OK) {
 		return STATUS_ERR_DENIED;
 	}
 	
@@ -54,7 +54,7 @@ enum status_code DEBUG_Write(const char *format, ...) {
 	
 	// Send the string
 	// This prints to a serial terminal when the SAMD20 is powered by a laptop
-	UART_TxString(UART_XEOS, debug_buffer); 
+	UART_TxString(UART_DEBUG, debug_buffer); 
 	//UART_TxString(UART_GPS, debug_buffer);
 	// This will print the debug statements over the Xbee radios
 	//UART_TxString(UART_RADIO, debug_buffer);
@@ -81,7 +81,7 @@ enum status_code DEBUG_Write_Unprotected(const char *format, ...) {
 	
 	// Send the string
 	// This prints to a serial terminal when the SAMD20 is powered by a laptop
-	UART_TxString_Unprotected(UART_XEOS, debug_buffer);
+	UART_TxString_Unprotected(UART_DEBUG, debug_buffer);
 	//UART_TxString(UART_GPS, debug_buffer);
 	// This will print the debug statements over the Xbee radios
 	//UART_TxString(UART_RADIO, debug_buffer);
