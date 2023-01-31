@@ -7,13 +7,14 @@ From 2015 to the fall of 2018, the sailboat team was managed by Dalhousie facult
 Our website: [dalmast.squarespace.com](https://dalmast.squarespace.com), The competition: [microtransat.org](https://www.microtransat.org/)
 
 ### Current Software Team
-As of Feb 2022:
+As of Feb 2023:
 
-Ethan Johnston - Team Lead  
-Yiming Zhang - Team Member  
-Ope Adelasoye - Team Member  
-Grant Sutherland - Team Member  
-Mathew Cockburn - Actually on electrical team but really likes to code so we are borrowing them.
+Matthew Cockburn - Team Lead  
+Kamden Trubeau   - Team Member
+Manav Sohi       - Team Member
+Nicholas Reilly  - Team Member
+Samuel Boucher   - Team Member
+Zhen Wei         - Team Member
 
 ### Credits
 
