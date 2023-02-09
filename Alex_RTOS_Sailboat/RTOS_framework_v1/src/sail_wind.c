@@ -12,20 +12,22 @@
 #include <asf.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <inttypes.h>
 #include <status_codes.h>
 #include <math.h>
 
+#include "sail_tasksinit.h"
 #include "sail_nmea.h"
 #include "sail_uart.h"
 #include "sail_debug.h"
 
 // TODO Check with Mark to see if these have changed
 //ws = weatherstation
-#define WS_ON_OFF_PIN		PIN_PA22
-#define WS_ON_STATE		true
+#define WIND_ON_OFF_PIN		PIN_PA22
+#define WIND_ON_STATE		true
 
-#define WS_BUFFER_LENGTH	NMEA_BUFFER_LENGTH
+#define WIND_BUFFER_LENGTH	NMEA_BUFFER_LENGTH
 
 #define MWV_HEADER			"IIMWV"
 #define MWV_HEADER_LENGTH	5
@@ -38,12 +40,52 @@
 #define MWV_FMT_LENGTH		7 
 
 // Buffer to hold wind vane strings from NMEA module
-static uint8_t wind_buffer[WS_BUFFER_LENGTH];
-static uint8_t mwv_buffer[WS_BUFFER_LENGTH];
+// static uint8_t wind_buffer[WIND_BUFFER_LENGTH];
+// static uint8_t mwv_buffer[WIND_BUFFER_LENGTH];
 // Flag to indicate if the module has been initialized
-static uint8_t init_flag = 0;
-static uint8_t enable_flag = 0;
+// static uint8_t init_flag = 0;
+// static uint8_t enable_flag = 0;
 
+static bool init_flag = false;
+static char msg_buffer[WIND_BUFFER_LENGTH];
+
+WIND_AllMsgs WIND_data;
+
+void ReadWIND(void){
+    DEBUG_Write("Reading GPS...\r\n");
+    uint16_t loop_cnt = 0;
+    // Set msg type sum to 0 since no messages processed yet
+    WIND_data.msg_type_sum = 0;
+    
+    // Event bits for holding the state of the event group
+    EventBits_t event_bits;
+    
+    TickType_t read_wind_delay = pdMS_TO_TICKS(WIND_SLEEP_PERIOD_MS);
+    
+    while(1) {
+        
+        event_bits = xEventGroupWaitBits(mode_event_group,
+            CTRL_MODE_AUTO_BIT | CTRL_MODE_REMOTE_BIT,  // Wait until sailboat is in AUTO or REMOTE mode
+            pdFALSE,                                    // Bits should not be cleared before returning
+            pdFALSE,                                    // Don't Wait for both bits, either bit will do
+            portMAX_DELAY);                             // Wait time does not expire
+        
+        taskENTER_CRITICAL();
+        watchdog_counter |= 0x01;
+        taskEXIT_CRITICAL();
+        
+        DEBUG_Write("************ Performing Wind Vane Reading ****************");
+        
+        // TODO: Add code to make the wind run and try to collect data. See gps.c for reference implementation
+        // - Kamden Thebeau (08-02-2023)
+        
+    }
+}
+
+void WIND_On(void){
+    WIND_Init();
+    WIND_Enable();
+}
 
 // Structure to hold parsed wind vane data
 static struct WIND_MWVData {
@@ -57,11 +99,11 @@ static struct WIND_MWVData {
 } mwv_data;
 
 static enum status_code WIND_ParseMWV(void);
-static void WEATHERSTATION_InitPin(void);
-static void WS_TurnOn(void);
-static void WS_TurnOff(void);
+static void WIND_InitPin(void);
+static void WIND_TurnOn(void);
+static void WIND_TurnOff(void);
 
-enum status_code WEATHERSTATION_Init(void)
+enum status_code WIND_Init(void)
 {
 	// Check if the module has been initialized already
 	if (init_flag) {
@@ -70,33 +112,33 @@ enum status_code WEATHERSTATION_Init(void)
 	}
 	
 	// Initialize NMEA channel
-	/*
-	switch (NMEA_Init(NMEA_WEATHERSTATION)) {
-		case STATUS_OK:							// Initialization complete
+	switch (NMEA_Init(NMEA_WIND)) {
+		case STATUS_OK:	// Initialization complete
+            break;
 		case STATUS_ERR_ALREADY_INITIALIZED:	// Already initialized
 			break;								// Continue initializing
 		default:
 			DEBUG_Write_Unprotected("NMEA module could not be initialized!\r\n");
 			return STATUS_ERR_DENIED;   		// Return error code
-	} */ // I AM COMMENTED OUT!!!
+	} 
 	
 	// Initialize the on-off control pin
-	WEATHERSTATION_InitPin();
+	//WIND_InitPin();
 	
 	// Turn off wind vane until enabled
-	WS_TurnOff();
+	//WIND_TurnOff();
 	
 	// Initialization successful, set flag
-	init_flag = 1;
+	init_flag = true;
 	
 	// Clear enable flag
-	enable_flag = 0;
+	// enable_flag = 0;
 
 	return STATUS_OK;
 }
 
-//enable weatherstation
-enum status_code WS_Enable(void)
+//enable wind vane
+enum status_code WIND_Enable(void)
 {
 	// Check if the module has been initialized
 	if (!init_flag) {
@@ -104,27 +146,27 @@ enum status_code WS_Enable(void)
 	}
 	
 	// Check if the module has already been enabled
-	if (enable_flag) {
-		return STATUS_NO_CHANGE;
-	}
+	//if (enable_flag) {
+	//	return STATUS_NO_CHANGE;
+	//}
+    
 	
 	// Return if the receiver cannot be started
-	/*
-	if (NMEA_Enable(NMEA_WEATHERSTATION) != STATUS_OK) {
+	if (NMEA_Enable(NMEA_WIND) != STATUS_OK) {
 		DEBUG_Write("NMEA receiver could not be started!\r\n");
 		return STATUS_ERR_DENIED;
-	} */ // I AM COMMENTED OUT!!!
+	}
 	
 	// Turn on the device
-	WS_TurnOn();
+	// WIND_TurnOn();
 	
-	enable_flag = 1;
+	// enable_flag = 1;
 	
 	return STATUS_OK;
 }
 
 
-enum status_code WS_Disable(void)
+enum status_code WIND_Disable(void)
 {
 	// Check if the module has been initialized
 	if (!init_flag) {
@@ -132,120 +174,230 @@ enum status_code WS_Disable(void)
 	}
 	
 	// Check if the module has already been disabled
-	if (!enable_flag) {
-		return STATUS_NO_CHANGE;
-	}
+	//if (!enable_flag) {
+	//	return STATUS_NO_CHANGE;
+	//}
 	
 	// Turn off the device
-	WS_TurnOff();
+	// WIND_TurnOff();
 	
 	// Try to stop the NMEA channel
-	/*
-	if (NMEA_Disable(NMEA_WEATHERSTATION) != STATUS_OK) {
+	if (NMEA_Disable(NMEA_WIND) != STATUS_OK) {
 		return STATUS_ERR_DENIED;	// Return error code
-	}*/ //I AM COMMENTED OUT!!!
+	}
 	
-	enable_flag = 0;
+	// enable_flag = 0;
 	
 	return STATUS_OK;
 }
 
-enum status_code WIND_GetReading(WIND_Reading *reading)
+// TODO: Both the gps.c and wind.c can be generalized and done in just the NMEA.c file
+// Should look into refactoring and simplifying code/generalizing for any NMEA case. 
+// If GPS or WIND is required, should pass that in as input, and return related result
+// - Kamden Thebeau (08-02-2023)
+
+enum status_code WIND_RxMsg(NMEA_GenericMsg* msg)
 {
-	// Check if the module has been initialized
-	if (!init_flag || !enable_flag) {
-		return STATUS_ERR_NOT_INITIALIZED;
-	}
-	
-	// Check if the pointer is NULL
-	if (reading == NULL) {
-		return STATUS_ERR_BAD_ADDRESS;
-	}
-	
-	// Get the most recent reading from the wind vane
-	uint8_t found_reading = 0;
-	uint8_t found_mwv = 0;
-	
-	// This will repeat, switch breaks will break the switch, not the loop...
-	/*
-	do {
-		switch (NMEA_RxString(NMEA_WEATHERSTATION, wind_buffer, WS_BUFFER_LENGTH)) {
-			// Data was found
-			case STATUS_VALID_DATA:
-				found_reading = 1;
-				// Copy the string if the message type is correct
-				if (strncmp((char *)wind_buffer, (char *)MWV_HEADER, MWV_HEADER_LENGTH) == 0) {
-					strcpy((char *)mwv_buffer, (char *)wind_buffer);
-					found_mwv = 1;
-				}
-				// Check if there's something even more recent
-				break;
-			// Data was not found
-			case STATUS_NO_CHANGE:
-				// If data was not found before, return
-				if (!found_reading) {
-					// DEBUG_Write("No data\r\n");
-					return STATUS_NO_CHANGE;
-				}
-				// Otherwise, break from the loop and process the data
-				found_reading = 0;
-				break;
-			// An error occurred
-			default:
-				found_reading = 1;
-				break;
+    // Return if a null pointer is provided
+    if (msg == NULL){
+        return STATUS_ERR_BAD_ADDRESS;
+    }
+    
+    enum status_code rc;
+    rc = NMEA_RxString(NMEA_WIND, (uint8_t)*msg_buffer, NMEA_BUFFER_LENGTH);
+    
+    // Check the NMEA receiver for new data
+    if (rc != STATUS_VALID_DATA){
+        return rc;
+    }
+    
+    // Extract the raw data from the message
+    WIND_MsgRawData_t raw_data;
+    char* msg_ptr;
+    
+    uint8_t arg_count = 0;
+    
+    DEBUG_Write("WIND: %s\r\n", msg_buffer);
+    msg_ptr = strtok(msg_buffer, ",");
+    // Check that msg is valid NMEA type within the type list
+    if (!get_NMEA_type(&raw_data.type, msg_ptr)){
+        return STATUS_DATA_NOT_NEEDED;
+    }
+    
+    while (msg_ptr != NULL) {
+        
+        msg_ptr = strtok(NULL, ",");
+        if(msg_ptr == NULL){ // No more data
+            // DEBUG_Write("NULL/n/r");
+            break; 
+        }
+        
+        raw_data.args[arg_count++] = msg_ptr;
+        // DEBUG_Write("Msg ptr %s and count %d\r\n", msg_ptr, arg_count);
+        // DEBUG_Write("In the raw data: >%s<\r\n", raw_data.args[arg_count-1]);
+        
+        if(arg_count == WIND_MSG_MAX_ARGS){
+            break;
+        }
+    }
+    
+    // Parse the message and save to appropriate values
+    if (WIND_ExtractMsg(msg, &raw_data) != STATUS_OK){
+        return STATUS_ERR_BAD_DATA;
+    }
+    
+    return rc;
+}
+    
+static enum status_code WIND_ExtractMsg(NMEA_GenericMsg* msg, WIND_MsgRawData_t* data)
+{
+    msg->type = data->type;
+    
+    	// args[0] is the first argument after the NMEA type
+	//ex. GPGGA,<arg[0]>,<arg[1]>...
+	switch (data->type)
+	{
+	case eGPGGA:
+		msg->fields.gpgga.lat.lat = atof(data->args[1]);
+		msg->fields.gpgga.lat.ns = ((char)data->args[2] == 'N') ? north : south;
+		msg->fields.gpgga.lon.lon = atof(data->args[3]);
+		msg->fields.gpgga.lon.we = ((char)data->args[4] == 'W') ? west : east;
+		msg->fields.gpgga.alt = atof(data->args[8]);
+		
+		if (0==atof(data->args[1])){
+			DEBUG_Write("Was 0\r\n");
 		}
-	} while (found_reading); // Should this be !found_reading?
-	*/ // I AM COMMENTED OUT!!!
-	
-	// Return if the message type is incorrect
-	if (!found_mwv) {
-		return STATUS_NO_CHANGE;
-	}
-	
-	// Return an error if the data could not be parsed
-	if (WIND_ParseMWV() != STATUS_OK) {
-		return STATUS_ERR_BAD_DATA;
-	}
+		//TODO
+		//wrap this so it only shows during debug config
+		#ifdef DEBUG_GPS
+		DEBUG_Write("LAT DATA: >%s<\r\n", data->args[1]);
+		DEBUG_Write("LON DATA: >%s<\r\n", data->args[3]);
+		
+		DEBUG_Write("LAT DATA: >%d<\r\n", (int)msg->fields.gpgga.lat.lat);
+		DEBUG_Write("LON DATA: >%f<\r\n", msg->fields.gpgga.lon.lon);
+		#endif
 
-	//calculates values
-	reading->angle = (double)mwv_data.angle + (double)mwv_data.angle_dec/10.0;
-	reading->speed = (double)mwv_data.wind_speed + (double)mwv_data.wind_speed_dec/10.0;
-	// TODO Read from the wind vane to see what scaling factor should be applied
-	reading->speed *= 0.514444;
+		break;
 
-	return STATUS_OK;
+		/* case eGPVTG:
+			msg->fields.gpvtg.course_over_ground = data->args[0];
+			break; */
+
+	case eWIMWV:
+		msg->fields.wimwv.wind_dir_rel = atof(data->args[0]);
+		msg->fields.wimwv.wind_speed_ms = atof(data->args[2]);
+		break;
+    // A bunch more NMEA message types exist here...
+    
+    default:
+        return STATUS_ERR_BAD_DATA;
+        break;
+    }
+    return STATUS_OK;    
 }
 
 
-enum status_code WIND_ParseMWV(void)
-{
-	int scanCnt = sscanf((char *)mwv_buffer, MWV_FMT, &mwv_data.angle,
-													  &mwv_data.angle_dec,
-											 (char *) &mwv_data.ref,
-													  &mwv_data.wind_speed,
-													  &mwv_data.wind_speed_dec,
-											 (char *) &mwv_data.wind_speed_unit,
-											 (char *) &mwv_data.status);
-
-	return (scanCnt == MWV_FMT_LENGTH ? STATUS_OK : STATUS_ERR_BAD_DATA);
-}
 
 
-static void WEATHERSTATION_InitPin(void) {
-    struct port_config config_port_pin;
-    port_get_config_defaults(&config_port_pin);
-    config_port_pin.direction = PORT_PIN_DIR_OUTPUT_WTH_READBACK;
-    port_pin_set_config(WS_ON_OFF_PIN, &config_port_pin);	
-}
+// CODES BELOW ARE LEFTOVER FROM PREVIOUS VERSION
+// TODO: REVIEW CODE BELOW TO SEE IF ANY IS RELEVANT/SHOULD BE KEPT
 
-
-static void WS_TurnOn(void) {
-	port_pin_set_output_level(WS_ON_OFF_PIN, WS_ON_STATE);	
-}
-
-
-static void WS_TurnOff(void) {
-	port_pin_set_output_level(WS_ON_OFF_PIN, !WS_ON_STATE);		
-}
+// enum status_code WIND_GetReading(WIND_Reading *reading)
+// {
+// 	// Check if the module has been initialized
+// 	if (!init_flag || !enable_flag) {
+// 		return STATUS_ERR_NOT_INITIALIZED;
+// 	}
+// 	
+// 	// Check if the pointer is NULL
+// 	if (reading == NULL) {
+// 		return STATUS_ERR_BAD_ADDRESS;
+// 	}
+// 	
+// 	// Get the most recent reading from the wind vane
+// 	uint8_t found_reading = 0;
+// 	uint8_t found_mwv = 0;
+// 	
+// 	// This will repeat, switch breaks will break the switch, not the loop...
+// 	/*
+// 	do {
+// 		switch (NMEA_RxString(NMEA_WEATHERSTATION, wind_buffer, WS_BUFFER_LENGTH)) {
+// 			// Data was found
+// 			case STATUS_VALID_DATA:
+// 				found_reading = 1;
+// 				// Copy the string if the message type is correct
+// 				if (strncmp((char *)wind_buffer, (char *)MWV_HEADER, MWV_HEADER_LENGTH) == 0) {
+// 					strcpy((char *)mwv_buffer, (char *)wind_buffer);
+// 					found_mwv = 1;
+// 				}
+// 				// Check if there's something even more recent
+// 				break;
+// 			// Data was not found
+// 			case STATUS_NO_CHANGE:
+// 				// If data was not found before, return
+// 				if (!found_reading) {
+// 					// DEBUG_Write("No data\r\n");
+// 					return STATUS_NO_CHANGE;
+// 				}
+// 				// Otherwise, break from the loop and process the data
+// 				found_reading = 0;
+// 				break;
+// 			// An error occurred
+// 			default:
+// 				found_reading = 1;
+// 				break;
+// 		}
+// 	} while (found_reading); // Should this be !found_reading?
+// 	*/ // I AM COMMENTED OUT!!!
+// 	
+// 	// Return if the message type is incorrect
+// 	if (!found_mwv) {
+// 		return STATUS_NO_CHANGE;
+// 	}
+// 	
+// 	// Return an error if the data could not be parsed
+// 	if (WIND_ParseMWV() != STATUS_OK) {
+// 		return STATUS_ERR_BAD_DATA;
+// 	}
+// 
+// 	//calculates values
+// 	reading->angle = (double)mwv_data.angle + (double)mwv_data.angle_dec/10.0;
+// 	reading->speed = (double)mwv_data.wind_speed + (double)mwv_data.wind_speed_dec/10.0;
+// 	// TODO Read from the wind vane to see what scaling factor should be applied
+// 	reading->speed *= 0.514444;
+// 
+// 	return STATUS_OK;
+// }
+// 
+// 
+// enum status_code WIND_ParseMWV(void)
+// {
+// 	int scanCnt = sscanf((char *)mwv_buffer, MWV_FMT, &mwv_data.angle,
+// 													  &mwv_data.angle_dec,
+// 											 (char *) &mwv_data.ref,
+// 													  &mwv_data.wind_speed,
+// 													  &mwv_data.wind_speed_dec,
+// 											 (char *) &mwv_data.wind_speed_unit,
+// 											 (char *) &mwv_data.status);
+// 
+// 	return (scanCnt == MWV_FMT_LENGTH ? STATUS_OK : STATUS_ERR_BAD_DATA);
+// }
+// 
+// 
+// static void WIND_InitPin(void) {
+//     struct port_config config_port_pin;
+//     port_get_config_defaults(&config_port_pin);
+//     config_port_pin.direction = PORT_PIN_DIR_OUTPUT_WTH_READBACK;
+//     port_pin_set_config(WIND_ON_OFF_PIN, &config_port_pin);	
+// }
+// 
+// 
+// static void WIND_TurnOn(void) {
+// 	port_pin_set_output_level(WIND_ON_OFF_PIN, WIND_ON_STATE);	
+// }
+// 
+// 
+// static void WIND_TurnOff(void) {
+// 	port_pin_set_output_level(WIND_ON_OFF_PIN, !WIND_ON_STATE);		
+// }
 

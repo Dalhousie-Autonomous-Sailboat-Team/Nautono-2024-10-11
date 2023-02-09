@@ -176,10 +176,10 @@ enum status_code CTRL_InitSensors(void)
 enum status_code startup(void)
 {
 	// Enable wind vane
-	if (WS_Enable() != STATUS_OK) { // TODO: Update all WS_ func() to new wind functions 01/25/2023 - KT
-		DEBUG_Write_Unprotected("WS not enabled...\r\n");
+	if (WIND_Enable() != STATUS_OK) { 
+		DEBUG_Write_Unprotected("WIND not enabled...\r\n");
 		} else {
-		DEBUG_Write_Unprotected("WS enabled...\r\n");
+		DEBUG_Write_Unprotected("WIND enabled...\r\n");
 	}
 	
 	// Get the current way point
@@ -294,7 +294,7 @@ static void EnableWeatherStation(void) // TODO: UPDATE
 	}
 
 	// Enable the wind vane
-	WS_Enable(); // TODO: UPDATE
+	WIND_Enable(); 
 }
 
 static void DisableWeatherStation(void) // TODO: UPDATE
@@ -305,7 +305,7 @@ static void DisableWeatherStation(void) // TODO: UPDATE
 	}
 
 	// Disable the wind vane
-	WS_Disable(); //TODO: UPDATE
+	WIND_Disable(); 
 }
 
 void process_heading_readings(void)

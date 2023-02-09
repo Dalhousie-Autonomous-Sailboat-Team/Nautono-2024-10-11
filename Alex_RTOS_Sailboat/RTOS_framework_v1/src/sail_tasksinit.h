@@ -55,7 +55,7 @@ extern unsigned char watchdog_reset_value;
 #define WATCHDOG_STACK_SIZE               configMINIMAL_STACK_SIZE
 
 // TODO: update this file
-enum all_tasks { eReadWeatherSensor, eUpdateCourse, eControlRudder, eRadioHandler, eLogData, eReadCompass};
+enum all_tasks { eReadGPS, eReadWIND, eUpdateCourse, eControlRudder, eRadioHandler, eLogData, eReadCompass};
 
 extern enum all_tasks running_task;
 

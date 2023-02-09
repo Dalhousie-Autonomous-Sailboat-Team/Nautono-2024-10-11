@@ -62,7 +62,7 @@ void ReadGPS(void) {
 		
 		GPS_On();
 
-		running_task = eReadWeatherSensor; //Replace this with gps, see tasksinit.c/.h
+		running_task = eReadGPS; 
 
 		NMEA_GenericMsg msg;
 
@@ -141,7 +141,7 @@ enum status_code GPS_Enable(void)
 
 	// Return if the receiver cannot be started
 	if (NMEA_Enable(NMEA_GPS) != STATUS_OK) {
-		//DEBUG_Write("NMEA receiver could not be started!\r\n");
+		DEBUG_Write("NMEA receiver could not be started!\r\n");
 		return STATUS_ERR_DENIED;
 	}
 
@@ -192,12 +192,12 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 	// Get each argument after the type
 	uint8_t arg_count = 0;
 	
-	//TODO 
+	// TODO 
 	// after doing the first token from msg buffer, pass token to get_NMEA_type as string
 	// This means fix the get_NMEA type method used above ^^^, and have the check after setting the first
 	// token. 
 	
-	DEBUG_Write("WS: %s\r\n", msg_buffer);
+	DEBUG_Write("GPS: %s\r\n", msg_buffer);
 	msg_ptr = strtok(msg_buffer, ",");
 	// Check that msg is valid NMEA type within type list
 	if(!get_NMEA_type(&raw_data.type, msg_ptr)){
@@ -205,10 +205,10 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 		return STATUS_DATA_NOT_NEEDED;
 	}
 	
-	//TODO
+	// TODO
 	//Verify that numbers are lat lon, a.k.a. do a checksum 
 	//ALso check length (should be nominal)
-	//TODO
+	// TODO
 	//lat and long are saved as ddmm.mmmm (dd degree, mm minutes) need to parse this! (or do you?)
 	
 	while (msg_ptr != NULL) {
@@ -224,7 +224,9 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 		raw_data.args[arg_count++] = msg_ptr;
 		DEBUG_Write("msg ptr %s and count %d\r\n", msg_ptr, arg_count);
 		DEBUG_Write("In the raw data: >%s<\r\n", raw_data.args[arg_count-1]);
-		if (arg_count == GPS_MSG_MAX_ARGS) break;
+		if (arg_count == GPS_MSG_MAX_ARGS){
+            break;
+        }        
 	}
 
 	/*
