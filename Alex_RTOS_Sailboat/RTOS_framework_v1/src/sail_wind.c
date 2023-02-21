@@ -79,6 +79,18 @@ void ReadWIND(void){
         // TODO: Add code to make the wind run and try to collect data. See gps.c for reference implementation
         // - Kamden Thebeau (08-02-2023)
         
+        WIND_On();
+        
+        running_task = eReadWIND;
+        
+        NMEA_GenericMsg msg;
+        
+        if (WIND_RxMsg(&msg) == STATUS_OK){
+            WIND_data.msg_array[msg.type] = msg;
+            
+        }
+        
+        vTaskDelay(read_wind_delay);
     }
 }
 
@@ -286,6 +298,8 @@ static enum status_code WIND_ExtractMsg(NMEA_GenericMsg* msg, WIND_MsgRawData_t*
 	case eWIMWV:
 		msg->fields.wimwv.wind_dir_rel = atof(data->args[0]);
 		msg->fields.wimwv.wind_speed_ms = atof(data->args[2]);
+        DEBUG_Write("Relative wind direction %s", data->args[0]);
+        DEBUG_Write("Wind Speed [m/s] %s", data->args[2]);
 		break;
     // A bunch more NMEA message types exist here...
     

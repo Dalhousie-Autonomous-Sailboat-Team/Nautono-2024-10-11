@@ -40,7 +40,7 @@ static struct usart_module uart_modules[UART_NUM_CHANNELS];
 
 static uint32_t baud_rates[] = {
 	9600,
-	4800, // TODO: Update baud rate for wind vane
+	4800, 
 	9600,
 	57600
 };
