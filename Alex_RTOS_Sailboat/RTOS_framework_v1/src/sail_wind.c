@@ -74,12 +74,12 @@ void ReadWIND(void){
         watchdog_counter |= 0x01;
         taskEXIT_CRITICAL();
         
-        DEBUG_Write("************ Performing Wind Vane Reading ****************");
+        DEBUG_Write("************ Performing Wind Vane Reading ****************\r\n");
         
         // TODO: Add code to make the wind run and try to collect data. See gps.c for reference implementation
         // - Kamden Thebeau (08-02-2023)
         
-        WIND_On();
+       // WIND_On();
         
         running_task = eReadWIND;
         
@@ -164,8 +164,10 @@ enum status_code WIND_Enable(void)
     
 	
 	// Return if the receiver cannot be started
-	if (NMEA_Enable(NMEA_WIND) != STATUS_OK) {
-		DEBUG_Write("NMEA receiver could not be started!\r\n");
+    enum status_code s = {0};
+    s = NMEA_Enable(NMEA_WIND);
+	if (s != STATUS_OK || s != STATUS_NO_CHANGE) {
+		DEBUG_Write_Unprotected("NMEA receiver could not be started!\r\n");                    
 		return STATUS_ERR_DENIED;
 	}
 	

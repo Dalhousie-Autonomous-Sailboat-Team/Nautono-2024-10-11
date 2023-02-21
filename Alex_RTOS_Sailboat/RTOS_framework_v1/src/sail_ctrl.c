@@ -152,10 +152,13 @@ enum status_code CTRL_InitSensors(void)
 	
 	//todo: add initialization for AIS module
 	//DEBUG_Write("Test 456");
-	if (COMP_Init() != STATUS_OK) {
-		DEBUG_Write_Unprotected("Compass not initialized...\r\n");
-	}
+	//if (COMP_Init() != STATUS_OK) {
+		//DEBUG_Write_Unprotected("Compass not initialized...\r\n");
+	//}
     
+    if (WIND_Init() != STATUS_OK){
+        DEBUG_Write_Unprotected("Wind Vane not initialized ...\r\n");
+    }else DEBUG_Write_Unprotected("Wind Init Ok ...\r\n");
     // TODO: Add initialization for GPS and WIND 01/25/2023 - KT
 	//DEBUG_Write("Test 123");
     
