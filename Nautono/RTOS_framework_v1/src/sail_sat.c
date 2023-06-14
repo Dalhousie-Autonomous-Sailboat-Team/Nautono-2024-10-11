@@ -23,26 +23,45 @@
 #include "sail_uart.h"
 #include "sail_debug.h"
 
-/* Local Prototypes*/
+#include "status_codes.h"
+#include <delay.h>
+
+#define UART_SAT UART_RADIO 
 
 
-/* Exported Implemetations */
+//bool init_flag = false;
 
 enum status_code Satellite_Init(void){
 
-    //if(init_flag) return STATUS_ERR_ALREADY_INITIALIZED;
-    //return UART_Init(UART_SATELLITE);
-
+   // if(init_flag) return STATUS_ERR_ALREADY_INITIALIZED;
+	
+    return UART_Init(UART_SAT);
 }
 
-static void TestSatellite(void){
+void TestSatellite(void){
+	
+	Satellite_Init();
+	UART_Enable(UART_SAT);
+	
 	
 	uint8_t counter = 0;
 	uint8_t msg[100];
 	
+	msg[0] = '\0';
+	
+	//memset(msg, '\0', 100);
+	
 	while(1){
 		DEBUG_Write("<<<<<<<<<< Test Beacon Task >>>>>>>>>>\n\r");
-		ConstructSBD_MSG(msg,100,"%X",counter++);
+		//ConstructSBD_MSG(msg,100,"%X",counter++);
+		
+		UART_TxString(UART_SAT, "AT");
+		
+		delay_s(1);
+		
+		UART_RxString(UART_SAT, msg, 100);
+		
+		
 		DEBUG_Write(msg);
 		//SatelliteWrite(msg);
 		
@@ -59,6 +78,15 @@ uint8_t ConstructSBD_MSG(uint8_t * msg, uint8_t size, const char * format, ...){
 	va_start(args,format);
 	vsnprintf(buffer,size,format,args);
 	va_end(args);
+	
+	/*
+	 * snprintf args: 
+		* char* string (buffer to write to)
+		* size
+		* format
+		* ...: optional arguments
+	*/
+	
 	snprintf(msg,"AT+SWGT%s/n",buffer, size + 20);
 	
 	return 0;

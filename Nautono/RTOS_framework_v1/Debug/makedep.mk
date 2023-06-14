@@ -32,6 +32,8 @@ src\sail_pwm.c
 
 src\sail_radio.c
 
+src\sail_sat.c
+
 src\sail_tasksinit.c
 
 src\sail_uart.c

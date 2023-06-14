@@ -17,11 +17,11 @@
  *
  * @return returns a status code
  */
-enum status_code Satellite_Init(void);
+extern enum status_code Satellite_Init(void);
 
-static void TestSatellite(void);
+extern void TestSatellite(void);
 
-uint8_t ConstructSBD_MSG(uint8_t * msg, uint8_t size, const char * format, ...);
+extern uint8_t ConstructSBD_MSG(uint8_t * msg, uint8_t size, const char * format, ...);
 
 
 #endif /* SAIL_SAT_H_ */

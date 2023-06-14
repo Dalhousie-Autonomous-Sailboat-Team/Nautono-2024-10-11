@@ -41,8 +41,10 @@ static struct usart_module uart_modules[UART_NUM_CHANNELS];
 static uint32_t baud_rates[] = {
 	9600,
 	4800,
-	9600,
-	115200,
+	//9600,
+	//115200, old satellite baud rate
+	19200,//new stream211 beacon baud rate (hijacking 3rd UART for beacon)
+	9600, // "3rd UART"
 	57600
 };
 
