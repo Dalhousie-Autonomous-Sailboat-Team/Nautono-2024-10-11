@@ -16,7 +16,7 @@
 /** Offsets registers **/
 #define NUM_BNO055_OFFSET_REGISTERS (22)
 
-#define BNO055_SAMPLERATE_DELAY_MS (100)
+#define BNO055_SAMPLERATE_DELAY_MS 1000
 
 /** Operation mode settings **/
 typedef enum {

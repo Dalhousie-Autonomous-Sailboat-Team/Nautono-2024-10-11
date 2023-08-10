@@ -404,7 +404,7 @@ static void pot_pos(double * data) {
 
 #define TESTING
 
-static void set_pos(double pos) {
+void set_pos(double pos) {
 	
 	double curr_pos = 0;
 	pot_pos(&curr_pos);

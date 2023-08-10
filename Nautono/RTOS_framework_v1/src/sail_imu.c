@@ -149,7 +149,7 @@ static void getCalibration(uint8_t *sys, uint8_t *gyro, uint8_t *accel, uint8_t 
 		*mag = calData & 0x03;
 	}
 }
-
+// TODO: Add a Timeout, Matthew
 static bool isFullyCalibrated() {
 
 	// CalibOffset Calib;
@@ -157,7 +157,7 @@ static bool isFullyCalibrated() {
 	//getCalibration(&Calib);
 	getCalibration(&system, &gyro, &accel, &mag);
 	
-	DEBUG_Write("sys: %d\tgyro: %d\taccel: %d\tmag: %d\r\n", system, gyro, accel, mag);
+	//DEBUG_Write("sys: %d\tgyro: %d\taccel: %d\tmag: %d\r\n", system, gyro, accel, mag);
 
 	switch (_mode) {
 	case OPERATION_MODE_ACCONLY:
@@ -193,7 +193,7 @@ static enum status_code IMU_calibrate(void)
 
 	while(!isFullyCalibrated())
 	{
-		DEBUG_Write("\n\r<<<<<<<<<<< Calibrating IMU >>>>>>>>>>\n\r");
+		//DEBUG_Write("\n\r<<<<<<<<<<< Calibrating IMU >>>>>>>>>>\n\r");
 		delay_ms(BNO055_SAMPLERATE_DELAY_MS);
 	}
 
@@ -466,9 +466,9 @@ void Test_IMU(void){
 	
 	TickType_t testDelay = pdMS_TO_TICKS(TEST_IMU_DELAY_MS);
 
-	if(bno055_init() != STATUS_OK){
-		DEBUG_Write("\n\r<<<<< Failed IMU initialization >>>>>n\r");
-	}
+	//if(bno055_init() != STATUS_OK){
+		//DEBUG_Write("\n\r<<<<< Failed IMU initialization >>>>>n\r");
+	//}
 
 
 	COMP_Reading reading;
@@ -491,7 +491,7 @@ void Test_IMU(void){
 		taskEXIT_CRITICAL();
 		running_task = eUpdateCourse;
 		
-		DEBUG_Write("<<<<<<<<<<< Testing IMU >>>>>>>>>>\n\r");\
+		//DEBUG_Write("<<<<<<<<<<< Testing IMU >>>>>>>>>>\n\r");\
 		
 		getHeading(&reading);
 		
@@ -499,9 +499,9 @@ void Test_IMU(void){
 		roll = reading.data.heading.roll;
 		pitch = reading.data.heading.pitch;
 		
-		DEBUG_Write("The magnetic heading is: %d\r\n", heading);
-		DEBUG_Write("The roll is: %d\r\n", roll);
-		DEBUG_Write("The pitch is: %d\r\n", pitch);
+		//DEBUG_Write("The magnetic heading is: %d\r\n", heading);
+		//DEBUG_Write("The roll is: %d\r\n", roll);
+		//DEBUG_Write("The pitch is: %d\r\n", pitch);
 		
 		//read8(BNO055_TEMP_ADDR, &temp);
 		//DEBUG_Write("Temp: %d\r\n", temp);

@@ -329,7 +329,7 @@ enum status_code getAngularSpeed(uint8_t mode, float *data)
 	return STATUS_OK;
 }
 
-#define TEST_AS_DELAY_MS 1000
+#define TEST_AS_DELAY_MS 2000
 
 void Test_AS(void){
 	
@@ -340,17 +340,17 @@ void Test_AS(void){
 	
 	// Need direction pin: 
 	AS_init(PIN_PA08);
-	
+	vTaskDelay(4000);
 	while(1){
 		taskENTER_CRITICAL();
 		watchdog_counter |= 0x20;
 		taskEXIT_CRITICAL();
 		running_task = eUpdateCourse;
 
-		DEBUG_Write_Unprotected("\n\r<<<<<<<<<<< Testing AS >>>>>>>>>>\n\r");
+		//DEBUG_Write("\n\r<<<<<<<<<<< Testing AS >>>>>>>>>>\n\r");
 		rawAngle(&raw_angle);
 		raw_angle = raw_angle*AS5600_RAW_TO_DEGREES;
-		DEBUG_Write("raw angle: %d\r\n", raw_angle);
+		//DEBUG_Write("raw angle: %u\r\n", raw_angle);
 		
 		vTaskDelay(testDelay);
 	}

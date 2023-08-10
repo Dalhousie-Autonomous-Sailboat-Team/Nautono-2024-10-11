@@ -9,6 +9,8 @@
 
 extern uint8_t GetExtensionIndex(uint16_t angle);
 extern uint16_t GetActuatorExtension(uint8_t index);
+enum status_code setActuator(float sail_angle);
 void Test_Actuator(void);
+
 
 #endif

@@ -69,8 +69,6 @@ void ReadGPS(void) {
 
 		if (GPS_RxMsg(&msg) == STATUS_OK) {
 			loop_cnt++;
-			//DEBUG_Write("\nStatus OK\n");
-			//DEBUG_Write("loop count %d\r\n", loop_cnt);
 			//store msg into msg array at index corresponding to msg type
 			GPS_data.msg_array[msg.type] = msg;
 			//add type to msg type sum to keep track of the saved messages
@@ -82,16 +80,16 @@ void ReadGPS(void) {
 			//store weather station data into appropriate structs
 			assign_gps_readings();
 			//check if waypoint was reached and affect as necessary
-			DEBUG_Write("checking waypoint...\r\n");
-			check_waypoint_state();
+			//DEBUG_Write("checking waypoint...\r\n");
+			//check_waypoint_state();
 
 			//Necessary??????????????
-			DEBUG_Write("processing wind...\r\n");
+			//DEBUG_Write("processing wind...\r\n");
 			//calculate wind parameters
-			process_wind_readings();
-			DEBUG_Write("processing heading...\r\n");
+			//process_wind_readings();
+			//DEBUG_Write("processing heading...\r\n");
 			//calculate heading parameters
-			process_heading_readings();			
+			//process_heading_readings();			
 		}
 		vTaskDelay(read_gps_delay);
 	}
@@ -185,11 +183,7 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 	// Extract the raw data from the message
 	GPS_MsgRawData_t raw_data;
 	char* msg_ptr;
-	
-	//Show raw data and error code
-	//DEBUG_Write("WS: %s\r\n", msg_buffer);
-	//DEBUG_Write("Error code: %d\r\n", rc);
-	
+		
 	// Get each argument after the type
 	uint8_t arg_count = 0;
 	
@@ -207,9 +201,6 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 	}
 	
 	//TODO
-	//Verify that numbers are lat lon, a.k.a. do a checksum 
-	//ALso check length (should be nominal)
-	//TODO
 	//lat and long are saved as ddmm.mmmm (dd degree, mm minutes) need to parse this! (or do you?)
 	
 	while (msg_ptr != NULL) {
@@ -220,20 +211,9 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 			DEBUG_Write("NULL/n/r");
 			break;
 		}
-		//raw_data.args[arg_count++] = isalpha(*msg_ptr) ? *msg_ptr : atof(msg_ptr);
-		//memcpy(raw_data.args[arg_count++], msg_ptr, sizeof(msg_ptr));
 		raw_data.args[arg_count++] = msg_ptr;
-		DEBUG_Write("msg ptr %s and count %d\r\n", msg_ptr, arg_count);
-		DEBUG_Write("In the raw data: >%s<\r\n", raw_data.args[arg_count-1]);
 		if (arg_count == GPS_MSG_MAX_ARGS) break;
 	}
-
-	/*
-	// Compare the argument count to its expected value
-	if (arg_count != WEATHERSENSOR_arg_counts[raw_data.type]) {
-		return STATUS_ERR_BAD_DATA;
-	}
-	*/
 
 	// Parse the message
 	if (GPS_ExtractMsg(msg, &raw_data) != STATUS_OK) {

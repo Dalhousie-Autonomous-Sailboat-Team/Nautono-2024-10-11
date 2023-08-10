@@ -22,6 +22,7 @@
 #include "FreeRTOS.h"
 #include "FreeRTOSConfig.h"
 #include "task.h"
+#include "sail_imu.h"
 
 // Time since last reset
 static uint64_t t_ms;
@@ -150,12 +151,6 @@ enum status_code CTRL_InitSystem(void)
 enum status_code CTRL_InitSensors(void)
 {
 	
-	//todo: add initialization for AIS module
-	//DEBUG_Write("Test 456");
-	//if (COMP_Init() != STATUS_OK) {
-	//	DEBUG_Write_Unprotected("Compass not initialized...\r\n");
-	//}
-	//DEBUG_Write("Test 123");
     
     if(WIND_Init() != STATUS_OK){
         DEBUG_Write_Unprotected("Wind Vane not initialized... \r\n");
@@ -163,18 +158,18 @@ enum status_code CTRL_InitSensors(void)
         DEBUG_Write_Unprotected("Wind Init Ok ...\r\n");
     }
     
-    // When status is okay, shouldn't this return a different status? - KT
-    
-    /*
-	if (WEATHERSTATION_Init() != STATUS_OK) {
-		DEBUG_Write_Unprotected("WS not initialized...\r\n");
+	if(GPS_Init() != STATUS_OK){
+		DEBUG_Write_Unprotected("GPS not initialized... \r\n");
+	}else{
+		DEBUG_Write_Unprotected("GPS Init Ok ... \r\n");
 	}
-	else{
-		DEBUG_Write_Unprotected("WS initialized.\r\n");
-		//DEBUG_Write("WS initialized.\r\n");
-	} 
-    */
 	
+	if(bno055_init() != STATUS_OK){
+		DEBUG_Write_Unprotected("IMU not initialized... \r\n");
+	}else{
+		DEBUG_Write_Unprotected("IMU Init Ok ... \r\n");
+	}
+		
 	return STATUS_OK;
 }
 
@@ -189,18 +184,6 @@ enum status_code startup(void)
 	} else {
 		DEBUG_Write_Unprotected("WS enabled...\r\n");
 	}
-	
-	// Get the current way point
-	//EEPROM_GetCurrentWayPoint(&wp);
-	
-	// Reset the way point complete count
-	//wp_complete_count = 0;
-	
-	//DEBUG_Write_Unprotected("way point: lat - %d lon - %d rad - %d\r\n", (int)(wp.pos.lat * 1000000.0), (int)(wp.pos.lon * 1000000.0), (int)(wp.rad));
-	/*
-	// Start the motor controller
-	MOTOR_Init();
-*/
 	
 	return STATUS_OK;
 }

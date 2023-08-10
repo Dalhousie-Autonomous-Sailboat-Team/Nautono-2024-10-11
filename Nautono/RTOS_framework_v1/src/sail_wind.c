@@ -91,7 +91,7 @@ static void WIND_PWR_OFF() {
 }
 
 void ReadWIND(void){
-    DEBUG_Write("Reading GPS...\r\n");
+    //DEBUG_Write("Reading GPS...\r\n");
     uint16_t loop_cnt = 0;
     // Set msg type sum to 0 since no messages processed yet
     WIND_data.msg_type_sum = 0;
@@ -103,7 +103,7 @@ void ReadWIND(void){
 	
 	NMEA_GenericMsg msg;
 	
-	//init_pins();
+	init_pins();
 	
 	WIND_On();
 	
@@ -133,13 +133,7 @@ void ReadWIND(void){
 		if(code == STATUS_VALID_DATA) {
 			WIND_data.msg_array[msg.type] = msg;
 			DEBUG_Write("Received Wind data\r\n");
-		}
-		//DEBUG_Write("WV powered on\r\n");
-		//WIND_PWR_ON();
-		//delay_ms(10000);
-		//DEBUG_Write("WV powered off\r\n");
-		//WIND_PWR_OFF();
-		
+		}		
 		
         vTaskDelay(read_wind_delay);
     }
