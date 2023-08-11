@@ -36,11 +36,11 @@ extern unsigned char watchdog_reset_value;
 #define CTRL_ALL_BITS          (0x07UL)
 
 #define GPS_PRIORITY					  tskIDLE_PRIORITY + 3
-#define WEATHER_SENSOR_PRIORITY           tskIDLE_PRIORITY + 4
+#define WEATHER_SENSOR_PRIORITY           tskIDLE_PRIORITY + 3
 #define WIND_PRIORITY					  tskIDLE_PRIORITY + 3
 #define UPDATE_COURSE_PRIORITY            tskIDLE_PRIORITY + 3
 #define CONTROL_RUDDER_PRIORITY           tskIDLE_PRIORITY + 3
-#define RADIO_HANDLER_PRIORITY            tskIDLE_PRIORITY + 1
+#define RADIO_HANDLER_PRIORITY            tskIDLE_PRIORITY + 2
 #define LOG_DATA_PRIORITY                 tskIDLE_PRIORITY + 2
 #define READ_COMPASS_PRIORITY             tskIDLE_PRIORITY + 3
 #define WATCHDOG_PRIORITY                 tskIDLE_PRIORITY

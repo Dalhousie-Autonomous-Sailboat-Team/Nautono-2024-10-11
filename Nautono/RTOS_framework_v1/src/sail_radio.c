@@ -126,7 +126,7 @@ enum status_code RADIO_RxMsg(RADIO_GenericMsg *msg)
 		return STATUS_ERR_BAD_ADDRESS;
 	}
 	
-	memset(msg_buffer, NULL, NMEA_BUFFER_LENGTH*sizeof(char));
+	//memset(msg_buffer, 0, NMEA_BUFFER_LENGTH*sizeof(char));
 	
 	// Check the NMEA receiver for new data
 	switch (NMEA_RxString(NMEA_RADIO, (uint8_t *)msg_buffer, RADIO_BUFFER_LENGTH)) {
@@ -592,9 +592,10 @@ static RADIO_Status AdjustMotors(int8_t sail_angle, int8_t rudder_angle)
 {
 	//MOTOR_SetSail((double)sail_angle);
 	//MOTOR_SetRudder((double)rudder_angle);
-	setActuator(sail_angle);
-	set_pos(rudder_angle);
-	
+	taskENTER_CRITICAL();
+	//set_pos((double)rudder_angle);
+	setActuator((float)90);
+	taskEXIT_CRITICAL();
 	DEBUG_Write("Setting rudder angle to %d\r\n", rudder_angle);
 	return RADIO_STATUS_SUCCESS;	
 }
@@ -666,20 +667,20 @@ void RadioHandler(void) {
 			//RADIO_Ack(RADIO_STATUS_SUCCESS);
 			loop_cnt++;
 				
-			if(loop_cnt > loop_max) {
-				//DEBUG_Write("loop_cnt: %d\r\n", (int)loop_cnt);
-				taskENTER_CRITICAL();
-				watchdog_counter |= 0x08;
-				taskEXIT_CRITICAL();
-				
-				DEBUG_Write("Radio going to sleep...\r\n");
-				loop_cnt = 0;
-								
-				//put thread to sleep until a specific tick count is reached
-				vTaskDelay(radio_handler_delay);
-				
-				DEBUG_Write("Radio waking up...\r\n");
-			}
+			//if(loop_cnt > loop_max) {
+				////DEBUG_Write("loop_cnt: %d\r\n", (int)loop_cnt);
+				//taskENTER_CRITICAL();
+				//watchdog_counter |= 0x08;
+				//taskEXIT_CRITICAL();
+				//
+				//DEBUG_Write("Radio going to sleep...\r\n");
+				//loop_cnt = 0;
+								//
+				////put thread to sleep until a specific tick count is reached
+				//vTaskDelay(radio_handler_delay);
+				//
+				//DEBUG_Write("Radio waking up...\r\n");
+			//}
 				
 		}
 		#else
