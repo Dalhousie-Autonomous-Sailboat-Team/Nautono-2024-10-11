@@ -208,7 +208,7 @@ enum status_code GPS_RxMsg(NMEA_GenericMsg* msg)
 		//if *msg_ptr is alphabetic, store directly, else convert string to float value
 		msg_ptr = strtok(NULL, ",");
 		if(msg_ptr == NULL){
-			DEBUG_Write("NULL/n/r");
+			//DEBUG_Write("NULL/n/r");
 			break;
 		}
 		raw_data.args[arg_count++] = msg_ptr;
@@ -245,15 +245,12 @@ static enum status_code GPS_ExtractMsg(NMEA_GenericMsg* msg, GPS_MsgRawData_t* d
 		
 		//TODO
 		//wrap this so it only shows during debug config
-		#ifdef DEBUG_GPS
-		
+				
 		DEBUG_Write("LAT DATA: >%s<\r\n", data->args[1]);
 		DEBUG_Write("LON DATA: >%s<\r\n", data->args[3]);
 		
 		DEBUG_Write("LAT DATA: >%d<\r\n", (int)msg->fields.gpgga.lat.lat);
 		DEBUG_Write("LON DATA: >%f<\r\n", msg->fields.gpgga.lon.lon);
-		
-		#endif
 
 		break;
 

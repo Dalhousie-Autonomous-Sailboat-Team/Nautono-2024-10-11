@@ -40,6 +40,9 @@ enum status_code DEBUG_Init(void) {
 //static uint8_t debug_buffer[DEBUG_BUFFER_LENGTH];
 
 enum status_code DEBUG_Write(const char *format, ...) {
+#if 1
+ return STATUS_OK;
+#endif
 #ifdef DEBUG
 	uint8_t debug_buffer[DEBUG_BUFFER_LENGTH];
 	// Check if the module has not been initialized

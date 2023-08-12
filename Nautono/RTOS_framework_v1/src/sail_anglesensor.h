@@ -9,4 +9,4 @@
 
 void Test_AS(void);
 extern enum status_code rawAngle(uint16_t *data);
-static void AS_init(uint8_t directionPin);
+void AS_init(uint8_t directionPin);

@@ -408,6 +408,7 @@ void set_pos(double pos) {
 	
 	double curr_pos = 0;
 	pot_pos(&curr_pos);
+	uint8_t timeout_cnt = 0;
 	
 	MOTOR_Direction dir = MOTOR_CW;
 	
@@ -419,7 +420,7 @@ void set_pos(double pos) {
 	#ifdef TESTING
 	DEBUG_Write("Setting rudder to pos: %d\r\n", (int)pos);
 	#endif
-	while(curr_pos <= 0.95*pos || curr_pos >= 1.05*pos) {
+	while(curr_pos <= 0.95*pos || curr_pos >= 1.05*pos || timeout_cnt++ > 200) {
 		TurnOn(MOTOR_RUDDER);
 		pot_pos(&curr_pos);
 		#ifdef TESTING

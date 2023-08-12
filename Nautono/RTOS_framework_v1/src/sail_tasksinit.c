@@ -28,6 +28,7 @@
 #include "sail_wind.h"
 #include "sail_motor.h"
 #include "sail_imu.h"
+#include "sail_test.h"
 void WatchDogTask(void);
 static void StartWatchDog(void);
 static void KickWatchDog(void);
@@ -61,8 +62,10 @@ enum status_code init_tasks(void) {
 	// Initialize the watchdog counter
 	watchdog_counter = 0;
 	
+	xTaskCreate( Remote_Controller, NULL, GPS_STACK_SIZE+100, NULL, 2, NULL );
+	
 	// Task for reading incoming data from the GPS
-	xTaskCreate( ReadGPS, NULL, GPS_STACK_SIZE, NULL, GPS_PRIORITY, NULL );	
+	//xTaskCreate( ReadGPS, NULL, GPS_STACK_SIZE, NULL, GPS_PRIORITY, NULL );	
 
 	// Task for reading incoming data from the weather station
 	//xTaskCreate( ReadWeatherSensor, NULL, WEATHER_SENSOR_STACK_SIZE, NULL, WEATHER_SENSOR_PRIORITY, NULL );
@@ -74,7 +77,7 @@ enum status_code init_tasks(void) {
 	//xTaskCreate( ControlRudder, NULL, CONTROL_RUDDER_STACK_SIZE, NULL, CONTROL_RUDDER_PRIORITY, NULL );
 	
 	// Task for handling incoming messages to the radio
-	xTaskCreate( RadioHandler, NULL, RADIO_HANDLER_STACK_SIZE, NULL, RADIO_HANDLER_PRIORITY, NULL );
+	//xTaskCreate( RadioHandler, NULL, RADIO_HANDLER_STACK_SIZE, NULL, RADIO_HANDLER_PRIORITY, NULL );
 	
 	// Task for transmitting logs using the radio
 	//xTaskCreate( LogData, NULL, LOG_DATA_STACK_SIZE, NULL, LOG_DATA_PRIORITY, NULL );
@@ -87,16 +90,16 @@ enum status_code init_tasks(void) {
 	
 	//xTaskCreate(Test_Actuator, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
 	
-	xTaskCreate(Test_IMU, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
+	//xTaskCreate(Test_IMU, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
 	
-	xTaskCreate(Test_AS, NULL, configMINIMAL_STACK_SIZE ,NULL, WIND_PRIORITY, NULL);
+	//xTaskCreate(Test_AS, NULL, configMINIMAL_STACK_SIZE ,NULL, WIND_PRIORITY, NULL);
 	
 	//xTaskCreate(Test_EEPROM, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
-	xTaskCreate( ReadWIND, NULL, WIND_STACK_SIZE, NULL, WIND_PRIORITY, NULL );
+	//xTaskCreate( ReadWIND, NULL, WIND_STACK_SIZE, NULL, WIND_PRIORITY, NULL );
 	//xTaskCreate(Test_Rudder, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
 
 #ifdef PCB
-	xTaskCreate(Debug_LED, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
+	//xTaskCreate(Debug_LED, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
 #endif
 	//pass control to FreeRTOS kernel
 	vTaskStartScheduler();

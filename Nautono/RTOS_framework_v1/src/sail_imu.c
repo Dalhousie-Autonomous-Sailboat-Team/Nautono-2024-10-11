@@ -150,7 +150,7 @@ static void getCalibration(uint8_t *sys, uint8_t *gyro, uint8_t *accel, uint8_t 
 	}
 }
 // TODO: Add a Timeout, Matthew
-static bool isFullyCalibrated() {
+bool isFullyCalibrated() {
 
 	// CalibOffset Calib;
 	uint8_t system, gyro, accel, mag;
@@ -205,7 +205,7 @@ static enum status_code IMU_calibrate(void)
 	return STATUS_OK;
 }
 
-static void setMode(adafruit_bno055_opmode_t mode) {
+void setMode(adafruit_bno055_opmode_t mode) {
 	_mode = mode;
 	write8(BNO055_OPR_MODE_ADDR, _mode);
 	delay_ms(30);

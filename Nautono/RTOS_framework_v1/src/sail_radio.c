@@ -126,7 +126,7 @@ enum status_code RADIO_RxMsg(RADIO_GenericMsg *msg)
 		return STATUS_ERR_BAD_ADDRESS;
 	}
 	
-	//memset(msg_buffer, 0, NMEA_BUFFER_LENGTH*sizeof(char));
+	memset(msg_buffer, 0, NMEA_BUFFER_LENGTH*sizeof(char));
 	
 	// Check the NMEA receiver for new data
 	switch (NMEA_RxString(NMEA_RADIO, (uint8_t *)msg_buffer, RADIO_BUFFER_LENGTH)) {
@@ -603,7 +603,7 @@ static RADIO_Status AdjustMotors(int8_t sail_angle, int8_t rudder_angle)
 
 
 
-static void HandleMessage(RADIO_GenericMsg *msg)
+void HandleMessage(RADIO_GenericMsg *msg)
 {
 	// Switch according to the type of message received
 	switch (msg->type) {

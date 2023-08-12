@@ -23,6 +23,7 @@
 #include "FreeRTOSConfig.h"
 #include "task.h"
 #include "sail_imu.h"
+#include "sail_anglesensor.h"
 
 // Time since last reset
 static uint64_t t_ms;
@@ -169,6 +170,8 @@ enum status_code CTRL_InitSensors(void)
 	}else{
 		DEBUG_Write_Unprotected("IMU Init Ok ... \r\n");
 	}
+	
+	AS_init(PIN_PA08);
 		
 	return STATUS_OK;
 }
@@ -184,7 +187,7 @@ enum status_code startup(void)
 	} else {
 		DEBUG_Write_Unprotected("WS enabled...\r\n");
 	}
-	
+	GPS_Enable();
 	return STATUS_OK;
 }
 
