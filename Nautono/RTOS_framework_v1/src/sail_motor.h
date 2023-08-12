@@ -45,4 +45,5 @@ enum status_code MOTOR_SetRudder(double angle);
 
 void Test_Rudder(void);
 uint8_t set_pos(double pos, uint16_t timeout);
+void TurnOff(MOTOR_ChannelID id);
 #endif // SAIL_MOTOR_H_

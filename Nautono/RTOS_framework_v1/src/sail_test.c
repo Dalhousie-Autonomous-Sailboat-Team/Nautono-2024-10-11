@@ -61,7 +61,7 @@ void Remote_Controller(void * params){
 	
 	// Run the Actuator test
 	setActuator(45);
-	vTaskDelay(pdMS_TO_TICKS(20000));
+	vTaskDelay(pdMS_TO_TICKS(5000));
 	
 		
 	DEBUG_Write("\n\r***** Starting Remote_Controller Task *****\n\r");
@@ -70,9 +70,12 @@ void Remote_Controller(void * params){
 		
 		/* Parse Incoming Radio Commands */
 		if(Radio_Receive()){
-			vTaskDelay(30000);
+			TurnOff(MOTOR_RUDDER);
+			vTaskDelay(1000);
+			
 		}else{
-			vTaskDelay(10);
+			TurnOff(MOTOR_RUDDER);
+			vTaskDelay(100);
 		}
 	    #ifndef TEST_CONFIG_2	
 		/* Get GPS Data */

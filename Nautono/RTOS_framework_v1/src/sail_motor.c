@@ -92,8 +92,7 @@ static uint8_t SpeedControl(double error_deg);
 static void InitPins(void);
 // Function to turn on the specified motor
 static void TurnOn(MOTOR_ChannelID id);
-// Function to turn off the specified motor
-static void TurnOff(MOTOR_ChannelID id);
+
 // Function to turn set the specified motor clockwise
 static void SetDirection(MOTOR_ChannelID id, MOTOR_Direction dir);
 
@@ -361,7 +360,7 @@ static void TurnOn(MOTOR_ChannelID id)
 }
 
 // Function to turn off the specified motor
-static void TurnOff(MOTOR_ChannelID id)
+void TurnOff(MOTOR_ChannelID id)
 {
 	// Clear the flag
 	switch(id) {
