@@ -58,13 +58,19 @@ void Remote_Controller(void * params){
 
 	port_pin_set_config(PIN_PA25, &config_port_pin);
 	//GPS_On();
+	
+	// Run the Actuator test
+	setActuator(45);
+	vTaskDelay(pdMS_TO_TICKS(20000));
+	
+		
 	DEBUG_Write("\n\r***** Starting Remote_Controller Task *****\n\r");
 	while(1)
 	{
 		
 		/* Parse Incoming Radio Commands */
 		if(Radio_Receive()){
-			vTaskDelay(3000);
+			vTaskDelay(30000);
 		}else{
 			vTaskDelay(10);
 		}

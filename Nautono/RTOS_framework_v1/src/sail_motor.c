@@ -119,7 +119,7 @@ enum status_code MOTOR_Init(void)
 	last_shaft_deg = shaft_min_deg - 100.0;
 	
 	// Turn on the timer
-	InitTimer();
+	//InitTimer();
 	
 	return STATUS_OK; 
 }
