@@ -43,8 +43,6 @@ enum status_code MOTOR_SetSail(double angle);
  */
 enum status_code MOTOR_SetRudder(double angle);
 
-extern void set_pos(double pos);
-
 void Test_Rudder(void);
-void set_pos(double pos);
+uint8_t set_pos(double pos, uint16_t timeout);
 #endif // SAIL_MOTOR_H_

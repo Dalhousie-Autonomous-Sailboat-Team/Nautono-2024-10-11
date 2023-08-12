@@ -24,6 +24,9 @@
 #include "task.h"
 #include "sail_imu.h"
 #include "sail_anglesensor.h"
+#include "sail_pwm.h"
+#include "sail_adc.h"
+#include "sail_motor.h"
 
 // Time since last reset
 static uint64_t t_ms;
@@ -187,6 +190,7 @@ enum status_code startup(void)
 	} else {
 		DEBUG_Write_Unprotected("WS enabled...\r\n");
 	}
+	MOTOR_Init();
 	GPS_Enable();
 	return STATUS_OK;
 }

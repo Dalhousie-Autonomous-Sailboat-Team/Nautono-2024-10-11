@@ -15,9 +15,11 @@
 #include "sail_debug.h"
 #include "sail_nmea.h"
 #include "port.h"
+#include "sail_actuator.h"
+#include "sail_motor.h"
 
 // Local Prototypes
-void Radio_Receive(void);
+uint8_t Radio_Receive(void);
 void GPS_Receive(void);
 void WIND_Receive(void);
 void IMU_Receive(void);
@@ -55,13 +57,17 @@ void Remote_Controller(void * params){
 	config_port_pin.direction = PORT_PIN_DIR_OUTPUT;
 
 	port_pin_set_config(PIN_PA25, &config_port_pin);
-	GPS_On();
+	//GPS_On();
 	DEBUG_Write("\n\r***** Starting Remote_Controller Task *****\n\r");
 	while(1)
 	{
 		
 		/* Parse Incoming Radio Commands */
-		Radio_Receive();		
+		if(Radio_Receive()){
+			vTaskDelay(3000);
+		}else{
+			vTaskDelay(10);
+		}
 	    #ifndef TEST_CONFIG_2	
 		/* Get GPS Data */
 		GPS_Receive();
@@ -80,8 +86,8 @@ void Remote_Controller(void * params){
 		#endif
 		/* end of loop */
 		// Blink LED
-		port_pin_toggle_output_level(PIN_PA25);
-			
+		//port_pin_toggle_output_level(PIN_PA25);
+		
 	}	
 }
 
@@ -89,14 +95,14 @@ void Remote_Controller(void * params){
 
 /* Private Implementation */
 
-void Radio_Receive(void){
+uint8_t Radio_Receive(void){
 	
 	RADIO_GenericMsg rx_msg;
-	
+	uint8_t ret = 0;
 	switch (RADIO_RxMsg(&rx_msg)) {
 		case STATUS_OK:
 		DEBUG_Write_Unprotected("Received a message!\r\n");
-		HandleMessage(&rx_msg);
+		ret = HandleMessage(&rx_msg);
 		break;
 		
 		case STATUS_ERR_BAD_DATA:
@@ -107,7 +113,7 @@ void Radio_Receive(void){
 		default:
 		break;
 	}
-
+	return ret;
 }
 
 void GPS_Receive(void){

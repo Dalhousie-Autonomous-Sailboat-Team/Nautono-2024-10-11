@@ -334,6 +334,9 @@ static void InitPins(void)
 
 	// Set the rudder direction pin
 	port_pin_set_config(MOTOR_RUDDER_DIR_PIN, &config_port_pin);
+	
+	// Set the motor pin low
+	port_pin_set_output_level(MOTOR_POWER_PIN,false);
 }
 
 
@@ -356,8 +359,6 @@ static void TurnOn(MOTOR_ChannelID id)
 	// Set the pin
 	port_pin_set_output_level(MOTOR_POWER_PIN, MOTOR_ON_STATE);
 }
-
-
 
 // Function to turn off the specified motor
 static void TurnOff(MOTOR_ChannelID id)
@@ -402,11 +403,16 @@ static void pot_pos(double * data) {
 	ADC_GetReading(MOTOR_RUDDER, data);
 }
 
-#define TESTING
+//#define TESTING
 
-void set_pos(double pos) {
+uint8_t set_pos(double pos, uint16_t timeout) {
+	
+	uint8_t ret = 1;
 	
 	double curr_pos = 0;
+	double pos_min = 0.95*pos;
+	double pos_max = 1.05*pos;
+	
 	pot_pos(&curr_pos);
 	uint8_t timeout_cnt = 0;
 	
@@ -417,23 +423,23 @@ void set_pos(double pos) {
 	}
 	
 	SetDirection(MOTOR_RUDDER, dir);
-	#ifdef TESTING
-	DEBUG_Write("Setting rudder to pos: %d\r\n", (int)pos);
-	#endif
-	while(curr_pos <= 0.95*pos || curr_pos >= 1.05*pos || timeout_cnt++ > 200) {
-		TurnOn(MOTOR_RUDDER);
+	uint16_t cur_ticks = 0;
+	uint16_t start_ticks = xTaskGetTickCount();
+	
+
+	TurnOn(MOTOR_RUDDER);
+	while(curr_pos <= pos_min || curr_pos >= pos_max) {
 		pot_pos(&curr_pos);
-		#ifdef TESTING
-		DEBUG_Write("Curr pos: %d\r\n", (int)curr_pos);
-		#endif
+		// Adding timeout 
+		cur_ticks = xTaskGetTickCount();
+		if(( cur_ticks - start_ticks) >= timeout){
+			ret = 0;
+			break;
+		}
 	}
-	
 	TurnOff(MOTOR_RUDDER);
-	
-	int int_curr_pos = curr_pos;
-	#ifdef TESTING
-	DEBUG_Write("Reached pos: %d\r\n", int_curr_pos);
-	#endif
+
+	return ret;
 }
 
 #define TEST_RUDDER_DELAY_MS 1000
@@ -442,7 +448,7 @@ void Test_Rudder(void){
 
 	TickType_t testDelay = pdMS_TO_TICKS(TEST_RUDDER_DELAY_MS);
 	
-	MOTOR_Init();
+	//MOTOR_Init();
 	
 	double pos = 0;
 	int int_pos = 0;
@@ -459,7 +465,7 @@ void Test_Rudder(void){
 		int_pos = pos;
 		DEBUG_Write("POT reading: %d\r\n", int_pos);
 		
-		//set_pos(250);
+		set_pos(150, 100);
 		
 		vTaskDelay(testDelay);
 	}

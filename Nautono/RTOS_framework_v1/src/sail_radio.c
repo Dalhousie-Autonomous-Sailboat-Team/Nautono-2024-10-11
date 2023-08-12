@@ -590,22 +590,23 @@ static RADIO_Status AddWayPoint(RADIO_WayPointData *wp_data)
 
 static RADIO_Status AdjustMotors(int8_t sail_angle, int8_t rudder_angle)
 {
-	
-	taskENTER_CRITICAL();
-	set_pos((double)rudder_angle);
+	RADIO_Status ret = RADIO_STATUS_ERROR;
+	if(set_pos((double)rudder_angle, pdMS_TO_TICKS(1000))){
+		ret = RADIO_STATUS_SUCCESS;
+	}
 	setActuator((float)sail_angle);
-	taskEXIT_CRITICAL();
 	//DEBUG_Write("Setting rudder angle to %d\r\n", rudder_angle);
-	return RADIO_STATUS_SUCCESS;	
+	return ret;	
 }
 
 
 
 
 
-void HandleMessage(RADIO_GenericMsg *msg)
+uint8_t HandleMessage(RADIO_GenericMsg *msg)
 {
 	// Switch according to the type of message received
+	uint8_t ret = 0;
 	switch (msg->type) {
 		case RADIO_ACK:
 		// Do nothing
@@ -619,7 +620,10 @@ void HandleMessage(RADIO_GenericMsg *msg)
 		RADIO_Ack(ChangeState(msg->fields.state.state));
 		break;
 		case RADIO_REMOTE:
-		RADIO_Ack(AdjustMotors(msg->fields.remote.sail_angle, msg->fields.remote.rudder_angle));
+		if(AdjustMotors(msg->fields.remote.sail_angle, msg->fields.remote.rudder_angle) == RADIO_STATUS_SUCCESS){
+			ret = 1;
+		}
+		RADIO_Ack(RADIO_STATUS_SUCCESS); //TODO We currently aren't handling these msg on the esp side 
 		break;
 		case RADIO_WAY_POINT:
 		RADIO_Ack(AddWayPoint(&msg->fields.wp));
@@ -628,7 +632,7 @@ void HandleMessage(RADIO_GenericMsg *msg)
 		// Do nothing
 		break;
 	}
-	return;
+	return ret;
 }
 #define TEST_XBEE
 

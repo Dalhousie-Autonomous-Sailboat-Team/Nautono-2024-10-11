@@ -99,7 +99,7 @@ enum status_code init_tasks(void) {
 	//xTaskCreate(Test_Rudder, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
 
 #ifdef PCB
-	//xTaskCreate(Debug_LED, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
+	xTaskCreate(Debug_LED, NULL, configMINIMAL_STACK_SIZE ,NULL, 1, NULL);
 #endif
 	//pass control to FreeRTOS kernel
 	vTaskStartScheduler();
@@ -165,7 +165,7 @@ void vApplicationDaemonTaskStartupHook(void) {
 #ifdef PCB
 
 static uint8_t _directionPin;
-#define DEBUG_LED_DELAY 1000
+#define DEBUG_LED_DELAY 500
 
 void Debug_LED(void)
 {
@@ -182,20 +182,10 @@ void Debug_LED(void)
 	
 	while(1)
 	{
-		taskENTER_CRITICAL();
-		watchdog_counter |= 0x20;
-		taskEXIT_CRITICAL();
-		running_task = eUpdateCourse;
 		
-		//DEBUG_Write_Unprotected("Flashing LED\r\n");
-	
-		port_pin_set_output_level(_directionPin, true);
-		
-		delay_ms(1000);
-		
-		port_pin_set_output_level(_directionPin, false);
-		
+		port_pin_toggle_output_level(_directionPin);
 		vTaskDelay(testDelay);
+		
 	}
 }
 

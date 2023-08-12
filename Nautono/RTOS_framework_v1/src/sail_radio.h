@@ -138,8 +138,7 @@ static RADIO_Status AdjustMotors(int8_t sail_angle, int8_t rudder_angle);
 
 void Radio_On(void);
 void RadioHandler(void);
-void HandleMessage(RADIO_GenericMsg *msg);
-
+uint8_t HandleMessage(RADIO_GenericMsg *msg);
 
 //extern RADIO_GenericMsg tx_msg, rx_msg;
 extern RADIO_GenericMsg tx_msg;
