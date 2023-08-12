@@ -588,10 +588,10 @@ static RADIO_Status AddWayPoint(RADIO_WayPointData *wp_data)
 }
 
 
-static RADIO_Status AdjustMotors(int8_t sail_angle, int8_t rudder_angle)
+static RADIO_Status AdjustMotors(uint8_t sail_angle, uint8_t rudder_angle)
 {
 	RADIO_Status ret = RADIO_STATUS_ERROR;
-	if(set_pos((double)rudder_angle, pdMS_TO_TICKS(10000))){
+	if(set_pos(rudder_angle, pdMS_TO_TICKS(10000))){
 		ret = RADIO_STATUS_SUCCESS;
 	}
 	setActuator((float)sail_angle);

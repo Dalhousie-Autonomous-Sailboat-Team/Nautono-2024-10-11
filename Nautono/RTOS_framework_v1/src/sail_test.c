@@ -71,7 +71,7 @@ void Remote_Controller(void * params){
 		/* Parse Incoming Radio Commands */
 		if(Radio_Receive()){
 			TurnOff(MOTOR_RUDDER);
-			vTaskDelay(1000);
+			vTaskDelay(10000);
 			
 		}else{
 			TurnOff(MOTOR_RUDDER);

@@ -404,7 +404,7 @@ static void pot_pos(double * data) {
 
 //#define TESTING
 
-uint8_t set_pos(double pos, uint16_t timeout) {
+uint8_t set_pos(uint8_t pos, uint16_t timeout) {
 	
 	uint8_t ret = 1;
 	
@@ -427,7 +427,7 @@ uint8_t set_pos(double pos, uint16_t timeout) {
 	
 
 	TurnOn(MOTOR_RUDDER);
-	while(curr_pos <= pos_min || curr_pos >= pos_max) {
+	while(curr_pos > pos_min || curr_pos < pos_max) {
 		pot_pos(&curr_pos);
 		// Adding timeout 
 		cur_ticks = xTaskGetTickCount();
@@ -464,7 +464,10 @@ void Test_Rudder(void){
 		int_pos = pos;
 		DEBUG_Write("POT reading: %d\r\n", int_pos);
 		
-		set_pos(150, 100);
+		set_pos(50, pdMS_TO_TICKS(10000));
+		vTaskDelay(pdMS_TO_TICKS(10000));
+		
+		set_pos(250, pdMS_TO_TICKS(10000));
 		
 		vTaskDelay(testDelay);
 	}
