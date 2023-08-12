@@ -36,6 +36,8 @@ uint8_t gps_data_flag;
 uint8_t imu_data_flag;
 uint8_t wind_data_flag;
 
+#define TEST_CONFIG_2 
+
 const float angle_conversion_factor = 360.0 / 4096;
 
 void Remote_Controller(void * params){
@@ -60,7 +62,7 @@ void Remote_Controller(void * params){
 		
 		/* Parse Incoming Radio Commands */
 		Radio_Receive();		
-		
+	    #ifndef TEST_CONFIG_2	
 		/* Get GPS Data */
 		GPS_Receive();
 		
@@ -75,7 +77,7 @@ void Remote_Controller(void * params){
 		
 		/* Write Collected Data to Radio */
 		Radio_Transmit();
-		
+		#endif
 		/* end of loop */
 		// Blink LED
 		port_pin_toggle_output_level(PIN_PA25);
