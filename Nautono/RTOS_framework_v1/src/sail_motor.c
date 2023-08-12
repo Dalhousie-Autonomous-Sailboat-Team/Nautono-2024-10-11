@@ -430,11 +430,11 @@ uint8_t set_pos(uint8_t pos, uint16_t timeout) {
 	while(curr_pos > pos_min || curr_pos < pos_max) {
 		pot_pos(&curr_pos);
 		// Adding timeout 
-		cur_ticks = xTaskGetTickCount();
-		if(( cur_ticks - start_ticks) >= timeout){
-			ret = 0;
-			break;
-		}
+		//cur_ticks = xTaskGetTickCount();
+		//if(( cur_ticks - start_ticks) >= timeout){
+			//ret = 0;
+			//break;
+		//}
 	}
 	TurnOff(MOTOR_RUDDER);
 
