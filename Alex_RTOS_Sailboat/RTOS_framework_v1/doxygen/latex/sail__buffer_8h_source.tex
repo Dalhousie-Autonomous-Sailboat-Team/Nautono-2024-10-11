@@ -1,0 +1,48 @@
+\hypertarget{sail__buffer_8h_source}{}\doxysection{sail\+\_\+buffer.\+h}
+\label{sail__buffer_8h_source}\index{src/sail\_buffer.h@{src/sail\_buffer.h}}
+\mbox{\hyperlink{sail__buffer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#ifndef SAIL\_BUFFER\_H\_}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define SAIL\_BUFFER\_H\_}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{status__codes_8h}{status\_codes.h}}>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 }
+\DoxyCodeLine{28 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} \{}
+\DoxyCodeLine{29     \textcolor{keyword}{volatile} uint8\_t *buffer;}
+\DoxyCodeLine{30     \textcolor{keyword}{volatile} uint16\_t read\_idx;}
+\DoxyCodeLine{31     \textcolor{keyword}{volatile} uint16\_t write\_idx;}
+\DoxyCodeLine{32     uint16\_t capacity;}
+\DoxyCodeLine{33     \textcolor{keyword}{volatile} uint16\_t length;}
+\DoxyCodeLine{34 \} \mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{46 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_a34b52fdcf6932ecc18be24d3fb2eb490}{BUFF\_Init}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, \textcolor{keyword}{volatile} uint8\_t *buffer, uint16\_t size);}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 }
+\DoxyCodeLine{58 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_a269440dc344ee6621858727e9711c14d}{BUFF\_ReadByte}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint8\_t *data);}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 }
+\DoxyCodeLine{69 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_a5a48ec8a530d9227c02736be9695c126}{BUFF\_WriteByte}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint8\_t data);}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 }
+\DoxyCodeLine{84 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_a96f5697a167922de6e4b79839b31083c}{BUFF\_ReadString}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint8\_t *data, uint16\_t length);}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 }
+\DoxyCodeLine{98 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_ac723f6521126f246148456c970abc1ed}{BUFF\_ReadBuffer}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint8\_t *data, uint16\_t length);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100 }
+\DoxyCodeLine{111 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_a56dd5b27c6c87b72d16657579cf6e0f9}{BUFF\_WriteBuffer}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint8\_t *data, uint16\_t length);}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 }
+\DoxyCodeLine{124 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_aa4af3b796991bb6d862d3cb87c649b9d}{BUFF\_WriteBufferUnprotected}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint8\_t *data, uint16\_t length);}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 }
+\DoxyCodeLine{135 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__buffer_8h_a6567bba6ed7b07faceb93f140738ed96}{BUFF\_GetLength}}(\mbox{\hyperlink{struct_b_u_f_f___module}{BUFF\_Module}} *mod, uint16\_t *length);}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* SAIL\_BUFFER\_H\_ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

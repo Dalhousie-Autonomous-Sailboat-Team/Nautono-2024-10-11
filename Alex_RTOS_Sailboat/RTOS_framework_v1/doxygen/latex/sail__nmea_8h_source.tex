@@ -1,0 +1,41 @@
+\hypertarget{sail__nmea_8h_source}{}\doxysection{sail\+\_\+nmea.\+h}
+\label{sail__nmea_8h_source}\index{src/sail\_nmea.h@{src/sail\_nmea.h}}
+\mbox{\hyperlink{sail__nmea_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef SAIL\_NMEA\_H\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define SAIL\_NMEA\_H\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{status__codes_8h}{status\_codes.h}}>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{sail__uart_8h}{sail\_uart.h}}"{}}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define NMEA\_BUFFER\_LENGTH 128}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} NMEA\_ChannelIDs \{}
+\DoxyCodeLine{23     NMEA\_GPS,}
+\DoxyCodeLine{24     NMEA\_WEATHERSTATION,}
+\DoxyCodeLine{25     NMEA\_RADIO,}
+\DoxyCodeLine{26     NMEA\_NUM\_CHANNELS}
+\DoxyCodeLine{27 \} NMEA\_ChannelID;}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{39 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__nmea_8h_a00cb48cd49f13616d1c64761cbf7f03c}{NMEA\_Init}}(NMEA\_ChannelID \textcolor{keywordtype}{id});}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 }
+\DoxyCodeLine{51 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__nmea_8h_a72f0667fd970d20474fee823360d6faa}{NMEA\_Enable}}(NMEA\_ChannelID \textcolor{keywordtype}{id});}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 }
+\DoxyCodeLine{64 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__nmea_8h_a55e3102f5a98e2c6c89ebe5707b09254}{NMEA\_Disable}}(NMEA\_ChannelID \textcolor{keywordtype}{id});}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 }
+\DoxyCodeLine{81 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__nmea_8h_ae16f33ebaf0b65e97fc581b8790bcb87}{NMEA\_TxString}}(NMEA\_ChannelID \textcolor{keywordtype}{id}, uint8\_t *str);}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{98 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__nmea_8h_ad2f4fffe98d7dc32aed61a8466460800}{NMEA\_TxString\_Unprotected}}(NMEA\_ChannelID \textcolor{keywordtype}{id}, uint8\_t *str);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{112 \textcolor{keyword}{enum} \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\_code}} \mbox{\hyperlink{sail__nmea_8h_aad88e5ea56b346810c25dbb9fa7b2275}{NMEA\_RxString}}(NMEA\_ChannelID \textcolor{keywordtype}{id}, uint8\_t *str, uint16\_t length);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* SAIL\_NMEA\_H\_ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

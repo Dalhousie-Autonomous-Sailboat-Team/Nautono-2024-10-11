@@ -1,0 +1,202 @@
+\hypertarget{sail__uart_8h}{}\doxysection{src/sail\+\_\+uart.h File Reference}
+\label{sail__uart_8h}\index{src/sail\_uart.h@{src/sail\_uart.h}}
+
+
+\mbox{\hyperlink{sail__uart_8h}{sail\+\_\+uart.\+h}}  
+
+
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$status\+\_\+codes.\+h$>$}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{sail__uart_8h_a2bb00d4fe1562f87867e65251c9844e6}\label{sail__uart_8h_a2bb00d4fe1562f87867e65251c9844e6}} 
+typedef enum UART\+\_\+\+Channel\+IDs {\bfseries UART\+\_\+\+Channel\+ID}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{sail__uart_8h_a199196deeb1b12e97f8b795effa3a4c0}\label{sail__uart_8h_a199196deeb1b12e97f8b795effa3a4c0}} 
+enum {\bfseries UART\+\_\+\+Channel\+IDs} \{ \newline
+{\bfseries UART\+\_\+\+GPS}
+, {\bfseries UART\+\_\+\+WEATHERSTATION}
+, {\bfseries UART\+\_\+\+RADIO}
+, {\bfseries UART\+\_\+\+XEOS}
+, \newline
+{\bfseries UART\+\_\+\+BEACON}
+, {\bfseries UART\+\_\+\+NUM\+\_\+\+CHANNELS}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} \mbox{\hyperlink{sail__uart_8h_af061e06c91a0bd6851f48ab3e2be5c9c}{UART\+\_\+\+Init}} (UART\+\_\+\+Channel\+ID id)
+\begin{DoxyCompactList}\small\item\em Initialize a specific UART port. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} \mbox{\hyperlink{sail__uart_8h_a280d3220dbe37a504fda42bd75041493}{UART\+\_\+\+Enable}} (UART\+\_\+\+Channel\+ID id)
+\begin{DoxyCompactList}\small\item\em Starts the receive job for the specified buffer. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} \mbox{\hyperlink{sail__uart_8h_adccd37094f7870189faaa619c3e4f150}{UART\+\_\+\+Disable}} (UART\+\_\+\+Channel\+ID id)
+\begin{DoxyCompactList}\small\item\em Stops the receiver from acquiring anymore data. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} \mbox{\hyperlink{sail__uart_8h_a1f2c510a8eb73d1a39f176b66e82e7e9}{UART\+\_\+\+Tx\+String}} (UART\+\_\+\+Channel\+ID id, uint8\+\_\+t $\ast$data)
+\begin{DoxyCompactList}\small\item\em Sends a null-\/terminated string with the specified UART. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} \mbox{\hyperlink{sail__uart_8h_aa8da64ad855e9e3e7faf207bc7edc590}{UART\+\_\+\+Tx\+String\+\_\+\+Unprotected}} (UART\+\_\+\+Channel\+ID id, uint8\+\_\+t $\ast$data)
+\begin{DoxyCompactList}\small\item\em The same as UART\+\_\+\+Tx\+String except it does not call the mutex protecting the circular buffer, so the function can be used before the free\+RTOS scheduler is started. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} \mbox{\hyperlink{sail__uart_8h_a15e40796a7dce2e0c77e6ddf6c3d777f}{UART\+\_\+\+Rx\+String}} (UART\+\_\+\+Channel\+ID id, uint8\+\_\+t $\ast$data, uint16\+\_\+t length)
+\begin{DoxyCompactList}\small\item\em Parses the FIFO buffer for a string (delimited with \textbackslash{}r, ~\newline
+, or \textbackslash{}0) and copies it to the provided memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{sail__uart_8h}{sail\+\_\+uart.\+h}} 
+
+UART driver API\textquotesingle{}s for the autonomous sailboat project. Created on June 13, 2016. \begin{DoxyAuthor}{Author}
+Thomas Gwynne-\/\+Timothy. 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{sail__uart_8h_adccd37094f7870189faaa619c3e4f150}\label{sail__uart_8h_adccd37094f7870189faaa619c3e4f150}} 
+\index{sail\_uart.h@{sail\_uart.h}!UART\_Disable@{UART\_Disable}}
+\index{UART\_Disable@{UART\_Disable}!sail\_uart.h@{sail\_uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_Disable()}{UART\_Disable()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} UART\+\_\+\+Disable (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Channel\+ID}]{id }\end{DoxyParamCaption})}
+
+
+
+Stops the receiver from acquiring anymore data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & -\/ ID of the specified UART port \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+STATUS\+\_\+\+OK -\/ UART was disabled successfully 
+
+STATUS\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+INITIALIZED -\/ If the UART Module is not initialized 
+
+STATUS\+\_\+\+NO\+\_\+\+CHANGE -\/ If the UART Module is already disabled 
+\end{DoxyReturn}
+\mbox{\Hypertarget{sail__uart_8h_a280d3220dbe37a504fda42bd75041493}\label{sail__uart_8h_a280d3220dbe37a504fda42bd75041493}} 
+\index{sail\_uart.h@{sail\_uart.h}!UART\_Enable@{UART\_Enable}}
+\index{UART\_Enable@{UART\_Enable}!sail\_uart.h@{sail\_uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_Enable()}{UART\_Enable()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} UART\+\_\+\+Enable (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Channel\+ID}]{id }\end{DoxyParamCaption})}
+
+
+
+Starts the receive job for the specified buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & -\/ ID of the specified UART port \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+STATUS\+\_\+\+OK -\/ UART was enabled successfully 
+
+STATUS\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+INITIALIZED -\/ If the UART Module is not initialized 
+
+STATUS\+\_\+\+NO\+\_\+\+CHANGE -\/ If the UART Module is already Enabled 
+\end{DoxyReturn}
+\mbox{\Hypertarget{sail__uart_8h_af061e06c91a0bd6851f48ab3e2be5c9c}\label{sail__uart_8h_af061e06c91a0bd6851f48ab3e2be5c9c}} 
+\index{sail\_uart.h@{sail\_uart.h}!UART\_Init@{UART\_Init}}
+\index{UART\_Init@{UART\_Init}!sail\_uart.h@{sail\_uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_Init()}{UART\_Init()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} UART\+\_\+\+Init (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Channel\+ID}]{id }\end{DoxyParamCaption})}
+
+
+
+Initialize a specific UART port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & -\/ ID of the specified UART port \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+STATUS\+\_\+\+OK -\/ UART was initialized successfully 
+
+STATUS\+\_\+\+ERR\+\_\+\+DENIED -\/ A driver error occurred 
+
+STATUS\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG -\/ The provided ID is invalid ~\newline
+ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{sail__uart_8h_a15e40796a7dce2e0c77e6ddf6c3d777f}\label{sail__uart_8h_a15e40796a7dce2e0c77e6ddf6c3d777f}} 
+\index{sail\_uart.h@{sail\_uart.h}!UART\_RxString@{UART\_RxString}}
+\index{UART\_RxString@{UART\_RxString}!sail\_uart.h@{sail\_uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_RxString()}{UART\_RxString()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} UART\+\_\+\+Rx\+String (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Channel\+ID}]{id,  }\item[{uint8\+\_\+t $\ast$}]{data,  }\item[{uint16\+\_\+t}]{length }\end{DoxyParamCaption})}
+
+
+
+Parses the FIFO buffer for a string (delimited with \textbackslash{}r, ~\newline
+, or \textbackslash{}0) and copies it to the provided memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & -\/ ID of the specified UART port \\
+\hline
+{\em data} & -\/ Pointer to string of data to be transmitted \\
+\hline
+{\em length} & -\/ Length of the amount of bytes to be read from buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+STATUS\+\_\+\+VALID\+\_\+\+DATA -\/ If buffer has been filled 
+
+STATUS\+\_\+\+NO\+\_\+\+CHANGE -\/ No new data is in the UART buffer ~\newline
+ 
+
+STATUS\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEMORY -\/ Not enough memory allocated for the buffer 
+
+STATUS\+\_\+\+ERR\+\_\+\+DENIED -\/ Error with UART driver layer has occurred 
+\end{DoxyReturn}
+\mbox{\Hypertarget{sail__uart_8h_a1f2c510a8eb73d1a39f176b66e82e7e9}\label{sail__uart_8h_a1f2c510a8eb73d1a39f176b66e82e7e9}} 
+\index{sail\_uart.h@{sail\_uart.h}!UART\_TxString@{UART\_TxString}}
+\index{UART\_TxString@{UART\_TxString}!sail\_uart.h@{sail\_uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_TxString()}{UART\_TxString()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} UART\+\_\+\+Tx\+String (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Channel\+ID}]{id,  }\item[{uint8\+\_\+t $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Sends a null-\/terminated string with the specified UART. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & -\/ ID of the specified UART port \\
+\hline
+{\em data} & -\/ Pointer to string of data to be transmitted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+STATUS\+\_\+\+OK -\/ Data was transmitted successfully 
+
+STATUS\+\_\+\+ERR\+\_\+\+BAD\+\_\+\+ADDRESS -\/ If a null pointer is detected 
+
+STATUS\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG -\/ If the ID passed is invalid ~\newline
+ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{sail__uart_8h_aa8da64ad855e9e3e7faf207bc7edc590}\label{sail__uart_8h_aa8da64ad855e9e3e7faf207bc7edc590}} 
+\index{sail\_uart.h@{sail\_uart.h}!UART\_TxString\_Unprotected@{UART\_TxString\_Unprotected}}
+\index{UART\_TxString\_Unprotected@{UART\_TxString\_Unprotected}!sail\_uart.h@{sail\_uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_TxString\_Unprotected()}{UART\_TxString\_Unprotected()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__sam0__utils__status__codes_ga751c892e5a46b8e7d282085a5a5bf151}{status\+\_\+code}} UART\+\_\+\+Tx\+String\+\_\+\+Unprotected (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Channel\+ID}]{id,  }\item[{uint8\+\_\+t $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+The same as UART\+\_\+\+Tx\+String except it does not call the mutex protecting the circular buffer, so the function can be used before the free\+RTOS scheduler is started. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & -\/ ID of the specified UART port \\
+\hline
+{\em data} & -\/ Pointer to string of data to be transmitted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+STATUS\+\_\+\+OK -\/ Data was transmitted successfully 
+
+STATUS\+\_\+\+ERR\+\_\+\+BAD\+\_\+\+ADDRESS -\/ If a null pointer is detected 
+
+STATUS\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG -\/ If the ID passed is invalid 
+\end{DoxyReturn}
