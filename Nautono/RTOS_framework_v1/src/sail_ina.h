@@ -16,6 +16,6 @@ typedef enum Reg_Names {
 	NUM_REGISTERS
 } Reg_Names;
 
-float ReadVoltage(I2C_DeviceID address, int channel);
+uint16_t ReadVoltage(I2C_DeviceID address, int channel);
 float ReadCurrent(I2C_DeviceID address, int channel);
 void Test_INA(void);

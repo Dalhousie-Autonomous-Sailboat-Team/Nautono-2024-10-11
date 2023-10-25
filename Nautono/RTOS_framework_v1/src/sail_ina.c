@@ -31,7 +31,7 @@ static enum status_code ReadWord(I2C_DeviceID ina, uint8_t reg, uint16_t *data){
    return STATUS_OK;
 }
 
-float ReadVoltage(I2C_DeviceID ina, int channel) {
+uint16_t ReadVoltage(I2C_DeviceID ina, int channel) {
     float voltage_V = 0.0;
     uint8_t reggie;
     uint16_t val_raw = 0;
@@ -52,7 +52,7 @@ float ReadVoltage(I2C_DeviceID ina, int channel) {
 
     voltage_V = val_raw / 1000.0;
 
-    return voltage_V;
+    return val_raw;
 }
 
 static int32_t getShuntVoltage(I2C_DeviceID ina, int channel){
@@ -104,8 +104,8 @@ void Test_INA(void){
 		for(int i = 0; i < 3; i++)
 		{
 			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA1, i, (int)ReadVoltage(I2C_INA1, i));	
-			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA2, i, (int)ReadVoltage(I2C_INA2, i));
-			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA3, i, (int)ReadVoltage(I2C_INA3, i));
+// 			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA2, i, (int)ReadVoltage(I2C_INA2, i));
+// 			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA3, i, (int)ReadVoltage(I2C_INA3, i));
 		}
 		
 		vTaskDelay(testDelay);
