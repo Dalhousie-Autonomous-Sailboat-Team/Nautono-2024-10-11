@@ -4141,6 +4141,7 @@ TCB_t *pxTCB;
 		printed out. */
 		for( x = strlen( pcBuffer ); x < ( size_t ) ( configMAX_TASK_NAME_LEN - 1 ); x++ )
 		{
+			
 			pcBuffer[ x ] = ' ';
 		}
 

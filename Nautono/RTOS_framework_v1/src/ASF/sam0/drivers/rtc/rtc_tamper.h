@@ -48,7 +48,10 @@
  *   - Active layer protection
  *
  * \note The Active Layer Protection is a means of detecting broken traces on the
- * PCB provided by RTC. In this mode an RTC output signal is routed over critical
+ * 
+ 
+ 
+  provided by RTC. In this mode an RTC output signal is routed over critical
  * components on the board and fed back to one of the RTC inputs. The input and
  * output signals are compared and a tamper condition is detected when they do not match.
  *

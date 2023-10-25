@@ -103,9 +103,9 @@ void Test_INA(void){
 		
 		for(int i = 0; i < 3; i++)
 		{
-			DEBUG_Write("The INA is %d and channel is %d and voltage is %f\n", I2C_INA1, i, ReadVoltage(I2C_INA1, i));	
-			DEBUG_Write("The INA is %d and channel is %d and voltage is %f\n", I2C_INA2, i, ReadVoltage(I2C_INA2, i));
-			DEBUG_Write("The INA is %d and channel is %d and voltage is %f\n", I2C_INA3, i, ReadVoltage(I2C_INA3, i));
+			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA1, i, (int)ReadVoltage(I2C_INA1, i));	
+			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA2, i, (int)ReadVoltage(I2C_INA2, i));
+			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA3, i, (int)ReadVoltage(I2C_INA3, i));
 		}
 		
 		vTaskDelay(testDelay);
