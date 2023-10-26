@@ -32,7 +32,7 @@ static enum status_code ReadWord(I2C_DeviceID ina, uint8_t reg, uint16_t *data){
 }
 
 uint16_t ReadVoltage(I2C_DeviceID ina, int channel) {
-    float voltage_V = 0.0;
+    uint16_t voltage_V = 0;
     uint8_t reggie;
     uint16_t val_raw = 0;
 
@@ -47,10 +47,12 @@ uint16_t ReadVoltage(I2C_DeviceID ina, int channel) {
             reggie = reg[CH3_BUSV];
             break;
     }
+	DEBUG_Write("register to read: %d and %d\r\n", reggie, reg[2]);
+    ReadWord(ina, reggie, &val_raw);
+	
+	val_raw = (val_raw << 8) | (val_raw >> 8);
 
-    ReadWord(ina, reg, &val_raw);
-
-    voltage_V = val_raw / 1000.0;
+    voltage_V = val_raw / 1000;
 
     return val_raw;
 }
@@ -71,8 +73,8 @@ static int32_t getShuntVoltage(I2C_DeviceID ina, int channel){
             reggie = reg[CH3_SHUNTV];
             break;
     }
-
-    ReadWord(ina, reg, &val_raw);
+	
+    ReadWord(ina, reggie, &val_raw);
 
     // 1 Least Significant Bit = 40uV
     res = (int32_t)(val_raw >> 3) * 40;
