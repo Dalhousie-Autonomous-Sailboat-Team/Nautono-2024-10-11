@@ -31,30 +31,29 @@ static enum status_code ReadWord(I2C_DeviceID ina, uint8_t reg, uint16_t *data){
    return STATUS_OK;
 }
 
-uint16_t ReadVoltage(I2C_DeviceID ina, int channel) {
-    uint16_t voltage_V = 0;
-    uint8_t reggie;
+float ReadVoltage(I2C_DeviceID ina, int channel) {
+    float voltage_V = 0;
+    uint8_t reggie = 0;
     uint16_t val_raw = 0;
 
     switch (channel) {
-        case 1:
+        case 0:
             reggie = reg[CH1_BUSV];
             break;
-        case 2:
+        case 1:
             reggie = reg[CH2_BUSV];
             break;
-        case 3:
+        case 2:
             reggie = reg[CH3_BUSV];
             break;
     }
-	DEBUG_Write("register to read: %d and %d\r\n", reggie, reg[2]);
     ReadWord(ina, reggie, &val_raw);
 	
-	val_raw = (val_raw << 8) | (val_raw >> 8);
+	val_raw = SWAP_BYTES_16_BITS(val_raw);//for changing endianness
 
-    voltage_V = val_raw / 1000;
+    voltage_V = (float)val_raw / 1000.0;
 
-    return val_raw;
+    return voltage_V;
 }
 
 static int32_t getShuntVoltage(I2C_DeviceID ina, int channel){
@@ -63,21 +62,23 @@ static int32_t getShuntVoltage(I2C_DeviceID ina, int channel){
     uint16_t val_raw = 0;
 
     switch (channel) {
-        case 1:
+        case 0:
             reggie = reg[CH1_SHUNTV];
             break;
-        case 2:
+        case 1:
             reggie = reg[CH2_SHUNTV];
             break;
-        case 3:
+        case 2:
             reggie = reg[CH3_SHUNTV];
             break;
     }
 	
     ReadWord(ina, reggie, &val_raw);
 
+	val_raw = SWAP_BYTES_16_BITS(val_raw);
+	
     // 1 Least Significant Bit = 40uV
-    res = (int32_t)(val_raw >> 3) * 40;
+	res = (int32_t)(val_raw >> 3) * 40;
 
     return res;
 }
@@ -85,10 +86,10 @@ static int32_t getShuntVoltage(I2C_DeviceID ina, int channel){
 float ReadCurrent(I2C_DeviceID ina, int channel) {
     int32_t shunt_uV = 0;
     float current_A  = 0;
-    int32_t shuntRes = 10;
+    int32_t shuntRes = 100;
 
     shunt_uV  = getShuntVoltage(ina, channel);
-    current_A = shunt_uV / 1000.0 / shuntRes; // in the void INA3221::begin(TwoWire *theWire) of the original function they are set to 10
+    current_A = shunt_uV / (1000.0 * shuntRes); // in the void INA3221::begin(TwoWire *theWire) of the original function they are set to 10
     return current_A;
 }
 
@@ -103,11 +104,12 @@ void Test_INA(void){
 		taskEXIT_CRITICAL();
 		running_task = eUpdateCourse;
 		
-		for(int i = 0; i < 3; i++)
+		for(int i = 1; i < 2; i++)
 		{
-			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA1, i, (int)ReadVoltage(I2C_INA1, i));	
-// 			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA2, i, (int)ReadVoltage(I2C_INA2, i));
-// 			DEBUG_Write("The INA is %d and channel is %d and voltage is %d\r\n", I2C_INA3, i, (int)ReadVoltage(I2C_INA3, i));
+			DEBUG_Write("The INA is %d and channel is %d and voltage is %d mV and current is %d mA\r\n", I2C_INA1 - 2, i, (int)(ReadVoltage(I2C_INA1, i)*1000), (int)(ReadCurrent(I2C_INA1, i) * 1000));
+			DEBUG_Write("The INA is %d and channel is %d and voltage is %d and current is %d\r\n", I2C_INA2 - 2, i, (int)ReadVoltage(I2C_INA2, i), ReadCurrent((I2C_INA2, i));
+			DEBUG_Write("The INA is %d and channel is %d and voltage is %d and current is %d\r\n", I2C_INA3 - 2, i, (int)ReadVoltage(I2C_INA3, i), ReadCurrent((I2C_INA3, i));
+
 		}
 		
 		vTaskDelay(testDelay);
