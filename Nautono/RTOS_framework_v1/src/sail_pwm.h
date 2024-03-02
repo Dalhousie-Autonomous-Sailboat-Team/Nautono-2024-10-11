@@ -47,4 +47,15 @@ enum status_code PWM_Disable(PWM_ChannelID id);
 // Function declaration for setting PWM based on angle
 enum status_code PWM_SetAngle(PWM_ChannelID id, uint8_t angle);
 
+void AdjustRudderAngle(uint8_t desiredAngle) {
+	// Assuming PWM_RUDDER is the channel ID for rudder's PWM control
+	if (PWM_SetAngle(PWM_RUDDER, desiredAngle) == STATUS_OK){
+		DEBUG_Write("Rudder angle is adjusted to %d degree. \n", desiredAngle)
+	}
+	// Error Handling
+	else {
+		DEBUG_Write("Failed to adjust rudder angle. \n")
+	}
+}
+
 #endif // SAIL_PWM_H
