@@ -283,19 +283,13 @@ static void beaconTxLogData(void){
 	char delimit[3] = "\r\n";
 #ifdef PCB
 	sprintf(data, "%5.3lf,%5.3lf", gps.lat, gps.lon);
-//#ifdef SENSORREADINGS
-	// Sensor readings output to the data string
-	//sprintf(data, "%5.3lf,%5.3lf,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f"
-//	, gps.lat, gps.lon, wind.speed, wind.angle, comp.data.heading.roll, 
-	//comp.data.heading.pitch, bearing, sail_deg, avg_heading_deg);
 #else
 	// Sensor readings output to the data string
 	sprintf(data, "1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0, these are random numbers");
-
 #endif
-	//send the stream 211 command followed by data followed by delimiter
-	
-	
+
+
+	//send the stream 211 command followed by data followed by delimiter	
 	UART_TxString(UART_XEOS, cmd4);   
 	UART_TxString(UART_XEOS, data);
 	UART_TxString(UART_XEOS, delimit);
@@ -316,12 +310,8 @@ void beaconTaskTest(void){
 	
 
 	while(1){
-		
-#ifdef LOL		
-	//	running_task = eUpdateCourse;
-		//beaconTxLogData();
-#endif
-		DEBUG_Write("Idk what to write\r\n");
+		running_task = eUpdateCourse;
+		beaconTxLogData();
 		vTaskDelay(testDelay);
 	}
 }
