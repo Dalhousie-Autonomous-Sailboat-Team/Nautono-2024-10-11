@@ -6,12 +6,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "sail_math.h"
-#include "sail_debug.h"
 #include "sail_radio.h"
 #include "sail_wind.h"
 #include "sail_eeprom.h"
 #include "sail_rudder.h"
+<<<<<<< HEAD
 #include "sail_gps.h"
 #include "sail_rudder.h"
 #include "sail_actuator.h"
@@ -26,7 +25,19 @@
 #include "sail_comp.h"
 #include "sail_tasksinit.h"
 //#include "Sail_WEATHERSTATION.h"///////////////////////////////////////////////////
+=======
+>>>>>>> FreeRTOS_Fix
 #include "sail_gps.h"
+#include "sail_rudder.h"
+#include "sail_actuator.h"
+
+#include "sail_nav.h"
+#include "sail_debug.h"
+
+#include "sail_math.h"
+#include "sail_types.h"
+
+#include "sail_tasksinit.h"
 #include "delay.h"
 #include "FreeRTOS.h"
 #include "FreeRTOSConfig.h"
@@ -90,7 +101,8 @@ uint16_t wp_complete_count;
 // Distance between boat and way point
 double wp_distance;
 
-float course, bearing, sail_deg, rudder_deg; 
+uint16_t rudder_deg;
+float course, bearing, sail_deg; 
 float avg_heading_deg = 0.0;
 
 
@@ -176,9 +188,10 @@ enum status_code CTRL_InitSensors(void)
 enum status_code startup(void)
 {
 	// Enable wind vane
-	if (WS_Enable() != STATUS_OK) {
+	if (WIND_Enable() != STATUS_OK) {
 		DEBUG_Write_Unprotected("WS not enabled...\r\n");
-		} else {
+        // Return bad status? - KT
+	} else {
 		DEBUG_Write_Unprotected("WS enabled...\r\n");
 	}
 	
@@ -287,6 +300,7 @@ static void beaconTxLogData(void){
 	char delimit[3] = "\r\n";
 #ifdef PCB
 	sprintf(data, "%5.3lf,%5.3lf", gps.lat, gps.lon);
+<<<<<<< HEAD
 //#ifdef SENSORREADINGS
 	// Sensor readings output to the data string
 	//sprintf(data, "%5.3lf,%5.3lf,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f"
@@ -300,6 +314,15 @@ static void beaconTxLogData(void){
 	//send the stream 211 command followed by data followed by delimiter
 	
 	
+=======
+#else
+	// Sensor readings output to the data string
+	sprintf(data, "1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0, these are random numbers");
+#endif
+
+
+	//send the stream 211 command followed by data followed by delimiter	
+>>>>>>> FreeRTOS_Fix
 	UART_TxString(UART_XEOS, cmd4);   
 	UART_TxString(UART_XEOS, data);
 	UART_TxString(UART_XEOS, delimit);
@@ -314,18 +337,27 @@ static void beaconTxLogData(void){
 }
 
 void beaconTaskTest(void){
+<<<<<<< HEAD
 	TickType_t testDelay = pdMS_TO_TICKS(60000 / portTICK_RATE_MS);
+=======
+	TickType_t testDelay = pdMS_TO_TICKS(6000 / portTICK_RATE_MS);
+>>>>>>> FreeRTOS_Fix
 	
 	UART_Init(UART_VCOM);
 	
 
 	while(1){
+<<<<<<< HEAD
 		
 #ifdef LOL		
 		running_task = eUpdateCourse;
 		beaconTxLogData();
 #endif
 		DEBUG_Write("Idk what to write\r\n");
+=======
+		running_task = eUpdateCourse;
+		beaconTxLogData();
+>>>>>>> FreeRTOS_Fix
 		vTaskDelay(testDelay);
 	}
 }
@@ -361,7 +393,7 @@ static void EnableWeatherStation(void)
 	}
 
 	// Enable the wind vane
-	WS_Enable();
+	WIND_Enable();
 }
 
 static void DisableWeatherStation(void)
@@ -372,7 +404,7 @@ static void DisableWeatherStation(void)
 	}
 
 	// Disable the wind vane
-	WS_Disable();
+	WIND_Disable();
 }
 
 void process_heading_readings(void)
@@ -534,7 +566,6 @@ void ReadCompass(void)
 static void CTRL_Sleep(unsigned time_sec) {
 	vTaskDelay(time_sec * configTICK_RATE_HZ);;
 }
-
 
 
 

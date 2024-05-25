@@ -1,0 +1,12 @@
+T834C 4509:092.864   SEGGER J-Link V7.96c Log File
+T834C 4509:092.864   DLL Compiled: Apr  2 2024 12:30:42
+T834C 4509:092.864   Logging started @ 2024-05-22 22:44
+T834C 4509:092.864   Process: C:\Program Files (x86)\Atmel\Studio\7.0\atbackend\atbackend.exe
+T834C 4509:092.864 - 46917.708ms
+T834C 4509:100.544 JLINK_ExecCommand("Device = ATSAMD20J18", ...). 
+T834C 4509:101.056   Device "ATSAMD20J18A" selected.
+T834C 4509:101.568 - 0.871ms returns 0x00
+T834C 4509:135.872 JLINK_Close()
+T834C 4509:145.088 - 9.543ms
+T834C 4509:145.088   
+T834C 4509:145.088   Closed

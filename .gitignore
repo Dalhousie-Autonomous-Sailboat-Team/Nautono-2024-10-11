@@ -27,6 +27,7 @@
 *.eep
 *.map
 *.lss
+.atsuo
 
 # Debug files
 *.dSYM/
