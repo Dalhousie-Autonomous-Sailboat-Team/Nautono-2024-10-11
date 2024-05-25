@@ -1,0 +1,9 @@
+T834C 4511:299.072   SEGGER J-Link V7.96c Log File
+T834C 4511:299.072   DLL Compiled: Apr  2 2024 12:30:42
+T834C 4511:299.072   Logging started @ 2024-05-22 22:44
+T834C 4511:299.072   Process: C:\Program Files (x86)\Atmel\Studio\7.0\atbackend\atbackend.exe
+T834C 4511:299.072 - 86.665ms
+T834C 4511:313.920 JLINK_Close()
+T834C 4511:323.648 - 9.936ms
+T834C 4511:323.648   
+T834C 4511:323.648   Closed
