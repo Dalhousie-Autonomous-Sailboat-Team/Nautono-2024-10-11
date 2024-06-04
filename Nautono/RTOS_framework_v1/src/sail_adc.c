@@ -77,10 +77,10 @@ enum status_code ADC_GetReading(ADC_ChannelID id, double *reading)
 	
 	// Return the output
 	if(id == ADC_RUDDER) {
-		*reading = MATH_Map(result, 0.0, 4095.0, 0.0, 300.0);
+		*reading = MATH_Map(result, 0.0, 4095.0, 0.0, 300.0);  //ANGLE VALUE WAS SET TO 300 DEGREES. NEED TO AS A QUESTION ABOUT THIS
 	}
 	else if(id == ADC_SAIL) {
-		*reading = MATH_Map(result, 0.0, 4095.0, 0.0, 146.0);
+		*reading = MATH_Map(result, 0.0, 4095.0, 0.0, 146.0); //ANGLE VALUE WAS SET TO 146 DEGREES. NEED TO AS A QUESTION ABOUT THIS
 	}
 	
 	return STATUS_OK;
