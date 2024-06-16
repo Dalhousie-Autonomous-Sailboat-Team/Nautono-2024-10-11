@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Github\\dalMAST\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_sensor.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Nautono\\RTOS_framework_v1\\src\\sail_sensor.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_tasksinit.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Nautono\\RTOS_framework_v1\\src\\sail_tasksinit.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_rudder.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Nautono\\RTOS_framework_v1\\src\\sail_rudder.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_adc.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Nautono\\RTOS_framework_v1\\src\\sail_adc.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_imu.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Nautono\\RTOS_framework_v1\\src\\sail_imu.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "sail_tasksinit.c",
+              "DocumentMoniker": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_tasksinit.c",
+              "RelativeDocumentMoniker": "Nautono\\RTOS_framework_v1\\src\\sail_tasksinit.c",
+              "ToolTip": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_tasksinit.c",
+              "RelativeToolTip": "Nautono\\RTOS_framework_v1\\src\\sail_tasksinit.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJoAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-05T21:50:24.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "sail_rudder.c",
+              "DocumentMoniker": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_rudder.c",
+              "RelativeDocumentMoniker": "Nautono\\RTOS_framework_v1\\src\\sail_rudder.c",
+              "ToolTip": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_rudder.c",
+              "RelativeToolTip": "Nautono\\RTOS_framework_v1\\src\\sail_rudder.c",
+              "ViewState": "AQIAADwAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-05T21:49:35.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "sail_adc.c",
+              "DocumentMoniker": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_adc.c",
+              "RelativeDocumentMoniker": "Nautono\\RTOS_framework_v1\\src\\sail_adc.c",
+              "ToolTip": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_adc.c*",
+              "RelativeToolTip": "Nautono\\RTOS_framework_v1\\src\\sail_adc.c*",
+              "ViewState": "AQIAADkAAAAAAAAAAAAAAE4AAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-05T21:46:30.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "sail_imu.c",
+              "DocumentMoniker": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_imu.c",
+              "RelativeDocumentMoniker": "Nautono\\RTOS_framework_v1\\src\\sail_imu.c",
+              "ToolTip": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_imu.c",
+              "RelativeToolTip": "Nautono\\RTOS_framework_v1\\src\\sail_imu.c",
+              "ViewState": "AQIAAJYAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-05T21:45:18.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "sail_sensor.c",
+              "DocumentMoniker": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_sensor.c",
+              "RelativeDocumentMoniker": "Nautono\\RTOS_framework_v1\\src\\sail_sensor.c",
+              "ToolTip": "D:\\Github\\dalMAST\\Nautono\\RTOS_framework_v1\\src\\sail_sensor.c",
+              "RelativeToolTip": "Nautono\\RTOS_framework_v1\\src\\sail_sensor.c",
+              "ViewState": "AQIAADAAAAAAAAAAAAAAAEQAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-05T21:45:04.343Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
